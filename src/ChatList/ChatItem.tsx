@@ -1,3 +1,4 @@
+import { ChatBody } from "../Chat/ChatBody";
 
 
 type ChatItemProps = {
@@ -13,15 +14,16 @@ type ChatItemProps = {
 export function ChatItem({ chat }: ChatItemProps) {
     return (
         <button
-            className="flex items-center gap-2 w-full px-1 py-0.5 border border-zinc-100 text-left"
+            className="flex items-start gap-2 w-full px-4 py-2 border border-zinc-100 text-left"
+            onClick={ChatBody}
         >
             <img
-                src={chat.avatar ?? '/images/default-avatar.jpg'} 
+                src={chat.avatar ?? '/images/default-ava.jpg'} 
                 alt="user avatar" 
-                className=" rounded-full w-18 h-18"
+                className=" rounded-full w-12 h-12"
             />
 
-            <div className="flex-1 min-w-0 justify-evenly">
+            <div className="flex-1 min-w-0">
                 <div className="flex justify-between">
                     <span className="font-medium text-sm">
                         {chat.name}
