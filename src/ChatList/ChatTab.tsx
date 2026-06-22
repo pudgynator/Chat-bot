@@ -5,7 +5,7 @@ export function ChatTab() {
     const [activeTab, setActiveTab ] = useState('chats');
 
     return (
-        <div className="flex items-center justify-around px-4 py-3 border-t-2 border-zinc-100 bg-white mt-auto">
+        <div className="flex items-center justify-around px-4 py-3 border-t-2 border-zinc-100 bg-white mt-auto rounded-b-2xl">
         {tabs.map(tab => {
                 const Icon = tab.icon;
 
