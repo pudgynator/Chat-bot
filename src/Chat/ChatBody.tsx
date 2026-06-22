@@ -1,11 +1,24 @@
+import type { SubmitEvent } from "react"
 
 
 export function ChatBody(){
+    function HandleSubmit(e: SubmitEvent) {
+        e.preventDefault()
+    }
+
     return(
-        <main className="flex flex-1 w-screen h-screen min-w-[300px] lg:min-w-0">
-            <div className="flex h-full w-full items-center justify-center bg-[url('/images/bg-image.jpg')] bg-cover bg-center bg-no-repeat">
-                
-            </div>
-        </main>
+
+        <div className="flex flex-col flex-1 w-full justify-end pb-4">
+            <form 
+                action="" 
+                onSubmit={HandleSubmit}
+                className="w-full "
+            >
+                <input 
+                    type="text" 
+                    className="w-full rounded-full px-2 py-2 text-zinc-900 bg-white/70 backdrop-blur-md border border-white/30 shadow-sm" 
+                    placeholder="Write a message..."/>
+            </form>
+        </div>
     )
 }
