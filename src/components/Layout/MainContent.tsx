@@ -15,7 +15,7 @@ export function MainContent({ selectedChat }) {
                 </div>
                 :
                 <div className="flex h-full w-full">
-                    <Chat/>
+                    <Chat chat={selectedChat}/>
                 </div>
             }
         </main>

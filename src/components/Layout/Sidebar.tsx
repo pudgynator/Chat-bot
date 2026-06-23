@@ -3,10 +3,11 @@ import { ChatTab } from "../../ChatList/ChatTab";
 import { SearchBar } from "../../ChatList/SearchBar";
 import { ChatList } from "../../ChatList/ChatList";
 import { useState } from "react";
+import type { ChatProps } from "../../data/chats";
 
 type SidebarProps = {
-    onSelect: (chatID: string) => void;
-    selectedChat: string | null;
+    onSelect: (chat: ChatProps) => void;
+    selectedChat: ChatProps | null;
 }
 
 export function Sidebar({ onSelect, selectedChat }: SidebarProps) {

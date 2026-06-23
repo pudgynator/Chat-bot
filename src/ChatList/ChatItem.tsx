@@ -1,24 +1,19 @@
+import type { ChatProps } from "../data/chats"; 
 
-type ChatItemProps = {
-    chat: {
-        id: string;
-        name: string;
-        lastMessage: string;
-        time?: string;
-        avatar?: string;    
-    };
-    onSelect: (id: string) => void;
-    selectedChat: string | null;
+export type ChatItemProps = {
+    chat: ChatProps;
+    onSelect: (id: ChatProps) => void;
+    selectedChat: ChatProps | null;
 }
 
 export function ChatItem({ chat, onSelect, selectedChat }: ChatItemProps) {
 
     return (
         <button
-            onClick={() => onSelect(chat.id)}
+            onClick={() => onSelect(chat)}
             className={`
                 flex items-start gap-2 w-full px-2 py-2 border-t border-b border-zinc-100 text-left
-                ${selectedChat === chat.id 
+                ${selectedChat === chat 
                     ? 'bg-[#454545] rounded-2xl text-white' 
                     : 'bg-white'
                 }
@@ -33,7 +28,7 @@ export function ChatItem({ chat, onSelect, selectedChat }: ChatItemProps) {
             <div className="flex-1 min-w-0">
                 <div className="flex justify-between">
                     <span className={`font-medium text-sm
-                        ${selectedChat === chat.id 
+                        ${selectedChat === chat 
                         ? 'text-white' 
                         : 'text-zinc-900'}
                     `}
@@ -42,7 +37,7 @@ export function ChatItem({ chat, onSelect, selectedChat }: ChatItemProps) {
                     </span>
 
                     <span className={`flex text-xs 
-                        ${selectedChat === chat.id 
+                        ${selectedChat === chat
                             ? 'text-white' 
                             : 'text-zinc-400'}
                     `}>
@@ -51,7 +46,7 @@ export function ChatItem({ chat, onSelect, selectedChat }: ChatItemProps) {
                 </div>
 
                 <p className={`text-sm  truncate
-                    ${selectedChat === chat.id 
+                    ${selectedChat === chat 
                         ? 'text-white' 
                         : 'text-zinc-400'}
                 `}>
