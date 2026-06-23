@@ -1,11 +1,16 @@
+import type { ChatProps } from "../data/chats";
 import { ChatBody } from "./ChatBody";
 import { ChatHeader } from "./ChatHeader";
 
 
-export function Chat() {
+type ChatComponentProps = {
+    chat: ChatProps;
+}
+
+export function Chat({ chat }: ChatComponentProps) {
     return(
         <div className="flex flex-col w-full h-full">
-            <ChatHeader/>
+            <ChatHeader chat={chat}/>
             <ChatBody/>
         </div>
     )

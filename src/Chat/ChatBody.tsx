@@ -16,7 +16,7 @@ export function ChatBody(){
             >
                 <input 
                     type="text" 
-                    className="w-full rounded-full px-2 py-2 text-zinc-900 bg-white/70 backdrop-blur-md border border-white/30 shadow-sm" 
+                    className="w-full rounded-full px-3 py-2 text-zinc-900 bg-white/70 backdrop-blur-md border border-white/30 shadow-sm" 
                     placeholder="Write a message..."/>
             </form>
         </div>
