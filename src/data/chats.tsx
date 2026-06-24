@@ -29,6 +29,6 @@ export const chats: ChatProps[] = [
         name: "Help Bot",
         lastMessage: "How can I help you?",
         time: `${hours}:${minutes}`,
-        avatar: `images/bot-ava.jpg`
+        avatar: `/images/bot-ava.jpg`
     },
 ];

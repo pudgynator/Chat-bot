@@ -5,7 +5,7 @@ import {
     Settings
 } from "lucide-react";
 
-type ChatTabProps = {
+export type ChatTabProps = {
     id: string;
     icon: React.ElementType;
 };

@@ -1,8 +1,11 @@
-import { tabs } from './tabs'
-import { useState } from "react";
+import { tabs } from '../data/tabs'
 
-export function ChatTab() {
-    const [activeTab, setActiveTab ] = useState('chats');
+type SidebarTabProps = {
+    activeTab: string;
+    onTabChange: (tabID: string) => void;
+}
+
+export function ChatTab({ activeTab, onTabChange }: SidebarTabProps) {
 
     return (
         <div className="flex items-center justify-around px-4 py-3 border-t-2 border-zinc-100 bg-white mt-auto rounded-b-2xl">
@@ -12,7 +15,7 @@ export function ChatTab() {
                 return (
                     <button
                         key={tab.id}
-                        onClick={() => setActiveTab(tab.id)}
+                        onClick={() => onTabChange(tab.id)}
                         className={`
                             flex items-center transition-colors 
                             ${activeTab === tab.id

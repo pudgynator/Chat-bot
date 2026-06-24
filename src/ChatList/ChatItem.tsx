@@ -12,7 +12,7 @@ export function ChatItem({ chat, onSelect, selectedChat }: ChatItemProps) {
         <button
             onClick={() => onSelect(chat)}
             className={`
-                flex items-start gap-2 w-full px-2 py-2 border-t border-b border-zinc-100 text-left
+                flex items-start gap-2 w-full px-2 py-2  border-b border-zinc-100 text-left
                 ${selectedChat === chat 
                     ? 'bg-[#454545] rounded-2xl text-white' 
                     : 'bg-white'
