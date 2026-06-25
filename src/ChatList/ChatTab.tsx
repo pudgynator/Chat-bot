@@ -8,7 +8,7 @@ type SidebarTabProps = {
 export function ChatTab({ activeTab, onTabChange }: SidebarTabProps) {
 
     return (
-        <div className="flex items-center justify-around px-4 py-3 border-t-2 border-zinc-100 bg-white mt-auto rounded-b-2xl">
+        <div className="flex items-center justify-around  px-4 py-3 border-t-2 border-zinc-100 bg-white mt-auto rounded-b-2xl">
         {tabs.map(tab => {
                 const Icon = tab.icon;
 
@@ -17,7 +17,7 @@ export function ChatTab({ activeTab, onTabChange }: SidebarTabProps) {
                         key={tab.id}
                         onClick={() => onTabChange(tab.id)}
                         className={`
-                            flex items-center transition-colors 
+                            flex items-center transition-colors focus:outline-none
                             ${activeTab === tab.id
                             ? "text-[#454545]"
                             : "text-zinc-400"
