@@ -19,6 +19,13 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange }: Side
         : activeTab === 'contacts'
             ? 'Contacts'
             : '';
+
+    const filteredChats = chats.filter(chat => 
+        chat.name
+            .toLowerCase()
+            .includes(search.toLowerCase())
+    )
+
     return (
         <aside className="flex flex-col h-full w-[350px] min-w-[300px] flex-shrink-0 bg-white px-1 rounded-2xl">
             <div className="flex item-center justify-center py-2">
@@ -26,9 +33,9 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange }: Side
             </div>
             <SearchBar onSearch={setSearch}/>
             {activeTab === 'chats' 
-                ?    <ChatList  search={search} onSelect={onSelect} selectedChat={selectedChat}/>
+                ?    <ChatList  filteredChats={filteredChats} onSelect={onSelect} selectedChat={selectedChat}/>
                 :    activeTab === 'contacts' 
-                    ?  <Contacts chat={chats} /> 
+                    ?  <Contacts chats={filteredChats} /> 
                     : null
             }
             <ChatTab 

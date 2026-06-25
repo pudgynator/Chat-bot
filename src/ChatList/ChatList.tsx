@@ -1,20 +1,13 @@
 import { ChatItem } from "./ChatItem";
-import { chats, type ChatProps } from '../data/chats'
-
+import { type ChatProps } from '../data/chats'
 
 type ChatListProps = {
-    search: string;
     onSelect: (chatID: ChatProps) => void;
     selectedChat: ChatProps | null;
+    filteredChats: ChatProps[];
 }
 
-export function ChatList({ search, onSelect, selectedChat }: ChatListProps) {
-
-    const filteredChats = chats.filter(chat => 
-        chat.name
-            .toLowerCase()
-            .includes(search.toLowerCase())
-    )
+export function ChatList({ onSelect, selectedChat, filteredChats  }: ChatListProps) {
 
     return (
         <div className="flex flex-1 flex-col">
