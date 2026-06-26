@@ -6,7 +6,6 @@ type SearchBarProps = {
 
 export function SearchBar({ onSearch }: SearchBarProps) {
     const sign = "\u{1F50D}";
-
     return (
         <div className="w-full px-4 border-b border-zinc-100">
             <input  

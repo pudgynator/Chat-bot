@@ -9,7 +9,7 @@ export type ChatProps = {
 }
 
 const hours = getHours(new Date());
-const minutes = getMinutes(new Date())
+const minutes = String(getMinutes(new Date())).padStart(2, '0');
 
 export const chats: ChatProps[] = [
     {
