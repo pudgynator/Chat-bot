@@ -9,7 +9,7 @@ export function Layout() {
     const [activeTab, setActiveTab] = useState("chats");
     return (
         
-        <div className="flex p-2 h-screen w-screen overflow-hidden bg-[url('/images/bg-image.jpg')] bg-cover bg-center bg-no-repeat" > 
+        <div className="flex relative p-0 md:p-2 h-screen w-screen overflow-hidden bg-[url('/images/bg-image.jpg')] bg-cover bg-center bg-no-repeat" > 
             
             <Sidebar 
                 onSelect={setSelectedChat} 

@@ -27,7 +27,12 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange }: Side
     )
 
     return (
-        <aside className="flex flex-col h-full w-[350px] min-w-[300px] flex-shrink-0 bg-white px-1 rounded-2xl">
+        <aside className={`flex flex-col h-full w-full bg-white px-1 flex-shrink-0
+            md:rounded-2xl md:translate-x-0 md:w-[350px] md:min-w-[300px] md:static
+            transition-transform duration-300 ease-in-out
+            ${selectedChat ? "-translate-x-full" : "translate-x-0"}
+             
+        `}>
             <div className="flex item-center justify-center py-2">
                 <span className="text-sm text-zinc-900">{title}</span>
             </div>

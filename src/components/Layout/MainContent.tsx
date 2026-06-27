@@ -3,7 +3,15 @@ import { Chat } from "../../Chat/Chat";
 
 export function MainContent({ selectedChat }) {
     return (
-        <main className="flex px-2 flex-1 w-screen h-screen min-w-[300px] lg:min-w-0">
+        <main className={`flex px-2 flex-1 h-full min-w-[300px] lg:min-w-0 fixed w-full
+                md:static
+                md:translate-x-0 
+                transition-transform duration-300 ease-in-out
+
+                ${selectedChat ? "translate-x-0" : "translate-x-full"}
+                 
+
+            `}>
 
             {
                 selectedChat === null 
