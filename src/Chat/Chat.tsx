@@ -9,7 +9,7 @@ type ChatComponentProps = {
 
 export function Chat({ chat }: ChatComponentProps) {
     return(
-        <div className="flex flex-col w-full h-full">
+        <div className="flex flex-col w-full h-full md:mt-0 mt-2 ">
             <ChatHeader chat={chat}/>
             <ChatBody/>
         </div>

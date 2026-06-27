@@ -8,7 +8,7 @@ export function ChatBody(){
 
     return(
 
-        <div className="flex flex-col flex-1 w-full justify-end pb-4">
+        <div className="flex flex-col flex-1 w-full justify-end md:pb-0 pb-4">
             <form 
                 action="" 
                 onSubmit={HandleSubmit}

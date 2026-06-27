@@ -12,7 +12,7 @@ export function ChatHeader({ chat }: ChatHeaderProps) {
             <img
                     src={ chat.avatar ?? '/images/default-ava.jpg'} 
                     alt="User avatar" 
-                    className=" rounded-full w-8 h-8"
+                    className=" rounded-full w-8 h-8 "
             />
             <button className="flex flex-col items-start gap-1">
                 <span className="text-sm leading-none">{chat.name}</span>
