@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { MainContent } from "./MainContent";
 import { Sidebar } from "./Sidebar";
-import type { ChatProps } from "../../data/chats";
+import { type ChatProps, chats } from "../../data/chats";
 
 
 export function Layout() {
@@ -16,6 +16,7 @@ export function Layout() {
                 selectedChat={selectedChat} 
                 activeTab={activeTab}
                 onTabChange={setActiveTab}
+                chats={chats}
             />
             
             <MainContent selectedChat={selectedChat} />

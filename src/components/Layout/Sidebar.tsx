@@ -2,7 +2,7 @@ import { ChatTab } from "../../ChatList/ChatTab";
 import { SearchBar } from "../../ChatList/SearchBar";
 import { ChatList } from "../../ChatList/ChatList";
 import { useState } from "react";
-import { type ChatProps, chats } from "../../data/chats";
+import { type ChatProps } from "../../data/chats";
 import { Contacts } from "../../ChatList/Contacts";
 
 type SidebarProps = {
@@ -10,10 +10,12 @@ type SidebarProps = {
     selectedChat: ChatProps | null;
     activeTab: string;
     onTabChange: (tabID: string) => void;
+    chats: ChatProps[];
 }
 
-export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange }: SidebarProps) {
+export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats }: SidebarProps) {
     const [search, setSearch] = useState("");
+
     const title = activeTab === 'chats' 
         ? 'Chats'
         : activeTab === 'contacts'

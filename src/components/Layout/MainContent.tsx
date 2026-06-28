@@ -1,6 +1,5 @@
 import { Chat } from "../../Chat/Chat";
 
-
 export function MainContent({ selectedChat }) {
     return (
         <main className={`flex px-2 flex-1 h-full min-w-[300px] lg:min-w-0 fixed w-full
