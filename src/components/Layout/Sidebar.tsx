@@ -42,13 +42,13 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats 
             {activeTab === 'chats' 
                 ?    <ChatList  filteredChats={filteredChats} onSelect={onSelect} selectedChat={selectedChat}/>
                 :    activeTab === 'contacts' 
-                    ?  <Contacts chats={filteredChats} /> 
+                    ?  <Contacts onSelect={onSelect} chats={filteredChats} selectedChat={selectedChat}/> 
                     : null
             }
             <ChatTab 
-            activeTab={activeTab}
-            onTabChange={onTabChange}
-        />
+                activeTab={activeTab}
+                onTabChange={onTabChange}
+            />
         </aside>
     )
 }
