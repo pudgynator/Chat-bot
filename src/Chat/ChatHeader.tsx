@@ -10,9 +10,9 @@ export function ChatHeader({ chat }: ChatHeaderProps) {
 
     return(
         <div className="flex items-center gap-3">
-            <div className="w-max md:hidden bg-white/70 backdrop-blur-md border border-white/30 shadow-sm rounded-full p-1">
+            <button className="w-max md:hidden bg-white/70 backdrop-blur-md border border-white/30 shadow-sm rounded-full p-1">
                 <ArrowPrev className="w-8 h-8 font-sm"/>
-            </div>
+            </button>
 
             <div className="flex items-center gap-2 px-1 py-1 bg-white/70 backdrop-blur-md border border-white/30 shadow-sm w-full rounded-full ">
                 <img
