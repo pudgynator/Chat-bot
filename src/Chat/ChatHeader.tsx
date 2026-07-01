@@ -3,14 +3,18 @@ import ArrowPrev  from "../assets/ArrowPrev";
 
 export type ChatHeaderProps = {
     chat: ChatProps;
+    onBack: () => void;
 };
 
-export function ChatHeader({ chat }: ChatHeaderProps) {
+export function ChatHeader({ chat, onBack }: ChatHeaderProps) {
     console.log(chat);
 
     return(
         <div className="flex items-center gap-3">
-            <button className="w-max md:hidden bg-white/70 backdrop-blur-md border border-white/30 shadow-sm rounded-full p-1">
+            <button 
+                className="w-max md:hidden bg-white/70 backdrop-blur-md border border-white/30 shadow-sm rounded-full p-1"
+                onClick={onBack}
+            >
                 <ArrowPrev className="w-8 h-8 font-sm"/>
             </button>
 

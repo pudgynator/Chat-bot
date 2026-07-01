@@ -1,15 +1,18 @@
 import { Chat } from "../../Chat/Chat";
+import type { ChatProps } from "../../data/chats";
 
-export function MainContent({ selectedChat }) {
+type MainContentProps = {
+    selectedChat: ChatProps | null;
+    onBack: () => void;
+};
+
+export function MainContent({ selectedChat, onBack }: MainContentProps) {
     return (
         <main className={`flex px-2 flex-1 h-full min-w-[300px] lg:min-w-0 fixed w-full
                 md:static
                 md:translate-x-0 
                 transition-transform duration-300 ease-in-out
-
                 ${selectedChat ? "translate-x-0" : "translate-x-full"}
-                 
-
             `}>
 
             {
@@ -22,7 +25,10 @@ export function MainContent({ selectedChat }) {
                 </div>
                 :
                 <div className="flex h-full w-full">
-                    <Chat chat={selectedChat}/>
+                    <Chat 
+                        chat={selectedChat}
+                        onBack={onBack}
+                    />
                 </div>
             }
         </main>

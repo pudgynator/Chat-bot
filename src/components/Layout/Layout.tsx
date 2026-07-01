@@ -19,7 +19,10 @@ export function Layout() {
                 chats={chats}
             />
             
-            <MainContent selectedChat={selectedChat} />
+            <MainContent 
+                selectedChat={selectedChat} 
+                onBack={() => setSelectedChat(null)}
+            />
 
         </div>
     )
