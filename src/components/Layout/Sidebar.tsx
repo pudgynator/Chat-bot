@@ -4,6 +4,7 @@ import { ChatList } from "../../ChatList/ChatList";
 import { useState } from "react";
 import { type ChatProps } from "../../data/chats";
 import { Contacts } from "../../ChatList/Contacts";
+import { Calls } from "../../ChatList/Calls";
 
 type SidebarProps = {
     onSelect: (chat: ChatProps) => void;
@@ -20,7 +21,9 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats 
         ? 'Chats'
         : activeTab === 'contacts'
             ? 'Contacts'
-            : '';
+            : activeTab === 'calls'
+                ? 'Recent Calls'
+                : '';
 
     const filteredChats = chats.filter(chat => 
         chat.name
@@ -38,12 +41,14 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats 
             <div className="flex item-center justify-center py-2">
                 <span className="text-sm text-zinc-900">{title}</span>
             </div>
-            <SearchBar onSearch={setSearch}/>
+            { activeTab !== 'calls' ? <SearchBar onSearch={setSearch}/> : null }
             {activeTab === 'chats' 
                 ?    <ChatList  filteredChats={filteredChats} onSelect={onSelect} selectedChat={selectedChat}/>
                 :    activeTab === 'contacts' 
                     ?  <Contacts onSelect={onSelect} chats={filteredChats} selectedChat={selectedChat}/> 
-                    : null
+                    : activeTab === 'calls' 
+                        ? <Calls/> 
+                        : null
             }
             <ChatTab 
                 activeTab={activeTab}
