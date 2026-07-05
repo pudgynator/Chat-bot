@@ -11,7 +11,7 @@ export function Contacts({ chats, onSelect, selectedChat }: ChatContactProps) {
         <div>
             {chats.map(chat => (
                 <div 
-                    className={`flex items-center  border-b border-zinc-100 gap-2 px-2 py-2 w-full
+                    className={`flex items-center  border-b border-zinc-100 gap-2 px-2 py-1.5 w-full
                         ${selectedChat === chat ? 'bg-[#454545] text-white rounded-2xl' : 'bg-white' }
                     `}
                     key={chat.id}
