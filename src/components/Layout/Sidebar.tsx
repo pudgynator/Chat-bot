@@ -5,6 +5,7 @@ import { useState } from "react";
 import { type ChatProps } from "../../data/chats";
 import { Contacts } from "../../ChatList/Contacts";
 import { Calls } from "../../ChatList/Calls";
+import { Settings } from "../../ChatList/Settings";
 
 type SidebarProps = {
     onSelect: (chat: ChatProps) => void;
@@ -23,7 +24,9 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats 
             ? 'Contacts'
             : activeTab === 'calls'
                 ? 'Recent Calls'
-                : '';
+                : activeTab === 'settings'
+                    ? 'Settings'
+                    : '';
 
     const filteredChats = chats.filter(chat => 
         chat.name
@@ -32,23 +35,25 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats 
     )
 
     return (
-        <aside className={`flex flex-col h-full w-full bg-white px-1 flex-shrink-0
+        <aside className={`flex flex-col h-full w-full bg-white px-0.5 flex-shrink-0
             md:rounded-2xl md:translate-x-0 md:w-[350px] md:min-w-[300px] md:static
             transition-transform duration-300 ease-in-out
             ${selectedChat ? "-translate-x-full" : "translate-x-0"}
              
         `}>
-            <div className="flex item-center justify-center py-2">
+            <div className="flex item-center justify-center py-4">
                 <span className="text-sm text-zinc-900">{title}</span>
             </div>
-            { activeTab !== 'calls' ? <SearchBar onSearch={setSearch}/> : null }
+            { activeTab !== 'calls' ? <SearchBar onSearch={setSearch} activeTab={activeTab}/> : null }
             {activeTab === 'chats' 
                 ?    <ChatList  filteredChats={filteredChats} onSelect={onSelect} selectedChat={selectedChat}/>
                 :    activeTab === 'contacts' 
                     ?  <Contacts onSelect={onSelect} chats={filteredChats} selectedChat={selectedChat}/> 
                     : activeTab === 'calls' 
                         ? <Calls/> 
-                        : null
+                        : activeTab === 'settings'
+                            ? <Settings/>
+                            : null 
             }
             <ChatTab 
                 activeTab={activeTab}
