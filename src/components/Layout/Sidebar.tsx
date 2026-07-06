@@ -6,6 +6,7 @@ import { type ChatProps } from "../../data/chats";
 import { Contacts } from "../../ChatList/Contacts";
 import { Calls } from "../../ChatList/Calls";
 import { Settings } from "../../ChatList/Settings";
+import { set } from "date-fns";
 
 type SidebarProps = {
     onSelect: (chat: ChatProps) => void;
@@ -27,7 +28,15 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats 
                 : activeTab === 'settings'
                     ? 'Settings'
                     : '';
-
+    const iconSrc = activeTab === 'chats' 
+        ? '/images/edit-icon.webp'
+        : activeTab === 'contacts'
+            ? '/images/add-contact-icon.png'
+            : activeTab === 'calls'
+                ? '/images/create-call-icon.webp'
+                : activeTab === 'settings'
+                    ? 'Settings'
+                    : '';
     const filteredChats = chats.filter(chat => 
         chat.name
             .toLowerCase()
@@ -35,7 +44,7 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats 
     )
 
     return (
-        <aside className={`flex flex-col h-full w-full bg-white px-0.5 flex-shrink-0
+        <aside className={`relative flex flex-col h-full w-full bg-white px-0.5 flex-shrink-0
             md:rounded-2xl md:translate-x-0 md:w-[350px] md:min-w-[300px] md:static
             transition-transform duration-300 ease-in-out
             ${selectedChat ? "-translate-x-full" : "translate-x-0"}
@@ -43,6 +52,13 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats 
         `}>
             <div className="flex item-center justify-center py-4">
                 <span className="text-sm text-zinc-900">{title}</span>
+            </div>
+            <div className="absolute right-4 top-4">
+                {
+                    activeTab === 'calls' 
+                        ? null 
+                        : activeTab === 'settings' ? <span>Edit</span> : <img src={iconSrc} alt="Icon" width='32px' height='32px'/>
+                }
             </div>
             { activeTab !== 'calls' ? <SearchBar onSearch={setSearch} activeTab={activeTab}/> : null }
             {activeTab === 'chats' 
