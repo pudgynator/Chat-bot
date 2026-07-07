@@ -6,7 +6,6 @@ import { type ChatProps } from "../../data/chats";
 import { Contacts } from "../../ChatList/Contacts";
 import { Calls } from "../../ChatList/Calls";
 import { Settings } from "../../ChatList/Settings";
-import { set } from "date-fns";
 
 type SidebarProps = {
     onSelect: (chat: ChatProps) => void;
@@ -28,15 +27,17 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats 
                 : activeTab === 'settings'
                     ? 'Settings'
                     : '';
+
     const iconSrc = activeTab === 'chats' 
-        ? '/images/edit-icon.webp'
+        ? '/images/edit.svg'
         : activeTab === 'contacts'
-            ? '/images/add-contact-icon.png'
+            ? '/images/new-contact.svg'
             : activeTab === 'calls'
-                ? '/images/create-call-icon.webp'
+                ? '/images/new-call.svg'
                 : activeTab === 'settings'
                     ? 'Settings'
                     : '';
+
     const filteredChats = chats.filter(chat => 
         chat.name
             .toLowerCase()
@@ -55,9 +56,10 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats 
             </div>
             <div className="absolute right-4 top-4">
                 {
-                    activeTab === 'calls' 
-                        ? null 
-                        : activeTab === 'settings' ? <span>Edit</span> : <img src={iconSrc} alt="Icon" width='32px' height='32px'/>
+                    activeTab === 'settings' 
+                        ? <span className="text-sm">Edit</span> 
+                            : activeTab === 'calls' 
+                            ? null : <img src={iconSrc} alt="Icon" width='24px' height='24px'/>
                 }
             </div>
             { activeTab !== 'calls' ? <SearchBar onSearch={setSearch} activeTab={activeTab}/> : null }
