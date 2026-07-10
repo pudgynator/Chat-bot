@@ -16,34 +16,42 @@ export function RegisterPage() {
         })
     }
     return (
-        <div className="flex relative p-0 md:p-2 h-screen w-screen overflow-hidden bg-[url('/images/bg-image.jpg')] bg-cover bg-center bg-no-repeat" > 
+        <div className="flex relative p-0 md:p-2 h-screen w-screen overflow-hidden 
+            justify-center
+            bg-[url('/images/bg-image.jpg')] bg-cover bg-center bg-no-repeat" 
+        > 
             <div className="flex flex-col items-center justify-center
-                bg-white/70 backdrop-blur-md border border-white/30 shadow-sm rounded-2xl 
+                bg-white/90 backdrop-blur-md border border-white/30 shadow-sm rounded-2xl 
                 md:w-[350px] md:min-w-[300px] w-full h-full bg-white
             ">
-                <h1>Sign in to Messanger</h1>
-                <h3>Please enter your phone number and name</h3>
-                <form className="flex flex-col" onSubmit={handleSumbit}>
+                <h1 className="text-xl font-semibold">Sign in to Messenger</h1>
+                <h3 className="flex flex-col items-center text-zinc-400 text-sm mb-4">Please enter your phone number 
+                    <span className="">
+                        and name for registration.
+                    </span>
+                </h3>
+                <form className="flex flex-col gap-4 w-full p-4" onSubmit={handleSumbit}>
                     <input 
-                        className="rounded-lg" 
+                        className="rounded-xl border border-zinc-400 px-2 py-2.5 text-xs opacity-80" 
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
                         type="tel" 
+                        pattern="^\+380\d{9}$"
                         placeholder="Phone number" />
                     <input 
-                        className="rounded-lg" 
+                        className="rounded-xl border border-zinc-400 px-2 py-2.5 text-xs opacity-80" 
                         onChange={(e) => setName(e.target.value)}
                         value={name}
                         type="text" 
                         placeholder="Name" />
                     <input
-                        className="rounded-lg"
+                        className="rounded-xl border border-zinc-400 px-2 py-2.5 text-xs opacity-80 mb-2"
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="Password"
                     />
-                    <button type='submit' className="bg-zinc-400 text-white rounded-lg p-2">Sign In</button>
+                    <button type='submit' className="bg-zinc-600 text-white rounded-xl p-2 font-medium cursor-pointer">SIGN IN</button>
                 </form>
             </div>
         </div>
