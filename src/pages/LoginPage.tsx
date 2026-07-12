@@ -17,8 +17,12 @@ export function LoginPage() {
                 phone,
                 password
             })
-            console.log(response.data)
-
+            localStorage.setItem("token", response.data.token);
+            localStorage.setItem(
+                "user",
+                JSON.stringify(response.data.user)
+            );
+            
             navigate('/chat');
         } catch (error) {
             console.error(error);
