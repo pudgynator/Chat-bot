@@ -44,7 +44,7 @@ export function RegisterPage() {
                         onChange={(e) => setPhone(e.target.value)}
                         type="tel" 
                         pattern="^\+380\d{9}$"
-                        placeholder="Phone number" />
+                        placeholder="+380 ... ... ..." />
                     <input 
                         className="rounded-xl border border-zinc-400 px-2 py-2.5 text-xs opacity-80" 
                         onChange={(e) => setName(e.target.value)}

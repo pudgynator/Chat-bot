@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { RegisterPage } from "./pages/RegisterPage";
 import { LoginPage } from "./pages/LoginPage";
+import { ProtectedRoute } from "./components/ProtectedRoute";
 
 function App() {
     const fetchAPI = async () => {
@@ -20,7 +21,9 @@ function App() {
             <Routes>
                 <Route path="/register" element={<RegisterPage/>}/>
                 <Route path="/login" element={<LoginPage />} />
-                <Route path="/chat" element={<Layout />} />
+                <Route element={<ProtectedRoute />}>
+                    <Route path="/chat" element={<Layout />} />
+                </Route>
                 <Route path="/" element={<Navigate to='/login'/>} />
             </Routes>
         </BrowserRouter>
