@@ -1,33 +1,39 @@
-import type { ChatProps } from "../data/chats";
+import type { ContactProps } from "../types/Contact";
 
 export type ChatContactProps = {
-    chats: ChatProps[];
-    onSelect: (chatID: ChatProps) => void;
-    selectedChat: ChatProps | null;
+    contacts: ContactProps[];
+    onStartChat: (contact: ContactProps) => void;
+    // onSelect: (ContactID: ContactProps) => void;
+    // selectedChat: ChatProps | null;
+    selectedContactId: string | null;
 };
 
-export function Contacts({ chats, onSelect, selectedChat }: ChatContactProps) {
+export function Contacts({ contacts, onStartChat, selectedContactId }: ChatContactProps) {
+
     return (
         <div>
-            {chats.map(chat => (
-                <div 
+            {contacts.map(contact => {
+                const isSelected = selectedContactId === contact.id;
+                return (
+                    <div 
                     className={`flex items-center  border-b border-zinc-100 gap-2 px-2 py-1.5 w-full
-                        ${selectedChat === chat ? 'bg-[#454545] text-white rounded-2xl' : 'bg-white' }
+                        ${isSelected ? 'bg-[#454545] text-white rounded-2xl' : 'bg-white' }
                     `}
-                    key={chat.id}
-                    onClick={() => onSelect(chat)}
+                    key={contact.id}
+                    onClick={() => onStartChat(contact)}
                 >
                     <img
-                            src={ chat.avatar ?? '/images/default-ava.jpg'} 
+                            src={ contact.avatar ?? '/images/default-ava.jpg'} 
                             alt="User avatar" 
                             className=" rounded-full w-9 h-9 "
                     />
                     <button className="flex flex-col items-start gap-1">
-                        <span className="text-sm leading-none">{chat.name}</span>
-                        <span className={`text-xs leading-none  ${selectedChat === chat ? ' text-white' : 'text-zinc-500' }`}>online</span>
+                        <span className="text-sm leading-none">{contact.name}</span>
+                        <span className={`text-xs leading-none  ${isSelected ? ' text-white' : 'text-zinc-500' }`}>online</span>
                     </button>
                 </div>
-            ))}
+                )
+            })}
         </div>
     )
 }

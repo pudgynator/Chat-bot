@@ -1,5 +1,5 @@
 import { Chat } from "../../Chat/Chat";
-import type { ChatProps } from "../../data/chats";
+import type { ChatProps } from "../../types/Chats";
 
 type MainContentProps = {
     selectedChat: ChatProps | null;

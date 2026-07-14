@@ -2,10 +2,11 @@ import { ChatTab } from "../../ChatList/ChatTab";
 import { SearchBar } from "../../ChatList/SearchBar";
 import { ChatList } from "../../ChatList/ChatList";
 import { useState } from "react";
-import { type ChatProps } from "../../data/chats";
+import { type ChatProps } from "../../types/Chats";
 import { Contacts } from "../../ChatList/Contacts";
 import { Calls } from "../../ChatList/Calls";
 import { Settings } from "../../ChatList/Settings";
+import { type ContactProps } from "../../types/Contact";
 
 type SidebarProps = {
     onSelect: (chat: ChatProps) => void;
@@ -13,9 +14,12 @@ type SidebarProps = {
     activeTab: string;
     onTabChange: (tabID: string) => void;
     chats: ChatProps[];
+    contacts: ContactProps[];
+    onStartChat: (contact: ContactProps) => void;
+    selectedContactId: string | null;
 }
 
-export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats }: SidebarProps) {
+export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats, contacts, onStartChat, selectedContactId }: SidebarProps) {
     const [search, setSearch] = useState("");
 
     const title = activeTab === 'chats' 
@@ -44,6 +48,12 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats 
             .includes(search.toLowerCase())
     )
 
+    const filteredContacts = contacts.filter(contact => 
+        contact.name
+            .toLowerCase()
+            .includes(search.toLowerCase())
+    )
+
     return (
         <aside className={`relative flex flex-col h-full w-full bg-white px-0.5 flex-shrink-0
             md:rounded-2xl md:translate-x-0 md:w-[350px] md:min-w-[300px] md:static
@@ -66,7 +76,7 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats 
             {activeTab === 'chats' 
                 ?    <ChatList  filteredChats={filteredChats} onSelect={onSelect} selectedChat={selectedChat}/>
                 :    activeTab === 'contacts' 
-                    ?  <Contacts onSelect={onSelect} chats={filteredChats} selectedChat={selectedChat}/> 
+                    ?  <Contacts contacts={filteredContacts} onStartChat={onStartChat} selectedContactId={selectedContactId}/> 
                     : activeTab === 'calls' 
                         ? <Calls/> 
                         : activeTab === 'settings'
