@@ -1,5 +1,5 @@
 import { ChatItem } from "./ChatItem";
-import { type ChatProps } from '../data/chats'
+import { type ChatProps } from '../types/Chats'
 
 type ChatListProps = {
     onSelect: (chatID: ChatProps) => void;

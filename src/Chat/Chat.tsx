@@ -1,4 +1,4 @@
-import type { ChatProps } from "../data/chats";
+import type { ChatProps } from "../types/Chats";
 import { ChatBody } from "./ChatBody";
 import { ChatHeader } from "./ChatHeader";
 

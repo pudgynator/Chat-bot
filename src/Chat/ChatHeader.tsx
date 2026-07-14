@@ -1,4 +1,4 @@
-import type { ChatProps } from "../data/chats";
+import type { ChatProps } from "../types/Chats";
 import ArrowPrev  from "../assets/ArrowPrev";
 
 export type ChatHeaderProps = {
