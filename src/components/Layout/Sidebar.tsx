@@ -7,6 +7,8 @@ import { Contacts } from "../../ChatList/Contacts";
 import { Calls } from "../../ChatList/Calls";
 import { Settings } from "../../ChatList/Settings";
 import { type ContactProps } from "../../types/Contact";
+import { ActionMenu } from "../ActionMenu";
+import { AddContact } from "../Contacts/AddContact";
 
 type SidebarProps = {
     onSelect: (chat: ChatProps) => void;
@@ -21,6 +23,8 @@ type SidebarProps = {
 
 export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats, contacts, onStartChat, selectedContactId }: SidebarProps) {
     const [search, setSearch] = useState("");
+    const [menu, setMenu] = useState(false);
+    const [addContact, setAddContact] = useState(false);
 
     const title = activeTab === 'chats' 
         ? 'Chats'
@@ -41,6 +45,15 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
                 : activeTab === 'settings'
                     ? 'Settings'
                     : '';
+
+    const iconTitle = activeTab === 'chats'
+        ? 'New Group'
+        : activeTab === 'contacts'
+            ? 'New Contact'
+            : activeTab === 'calls'
+                ? 'New Call'
+                : activeTab === 'settings'
+                    ? null : null;
 
     const filteredChats = chats.filter(chat => 
         chat.name
@@ -67,9 +80,28 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
             <div className="absolute right-4 top-4">
                 {
                     activeTab === 'settings' 
-                        ? <span className="text-sm">Edit</span> 
-                            : activeTab === 'calls' 
-                            ? null : <img src={iconSrc} alt="Icon" width='24px' height='24px'/>
+                        ? ( <span className="text-sm">Edit</span> 
+                            ): activeTab === 'calls' 
+                            ? null : (
+                                <>
+                                    <button
+                                        className="relative cursor-pointer"
+                                        onClick={() => setMenu(!menu)}
+                                    >
+                                        <img src={iconSrc} alt="Icon" width='24px' height='24px'/>
+                                    </button>
+                                    <ActionMenu 
+                                        isOpen={menu} 
+                                        iconSrc={iconSrc}
+                                        title={iconTitle}
+                                        onClick={() => {
+                                            setMenu(false);
+                                            setAddContact(true);
+                                        }}
+                                    />
+                                </>
+                            )
+                                
                 }
             </div>
             { activeTab !== 'calls' ? <SearchBar onSearch={setSearch} activeTab={activeTab}/> : null }
@@ -86,6 +118,10 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
             <ChatTab 
                 activeTab={activeTab}
                 onTabChange={onTabChange}
+            />
+            <AddContact
+                isOpen={addContact}
+                onClose={() => setAddContact(false)}
             />
         </aside>
     )
