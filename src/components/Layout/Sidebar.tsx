@@ -26,6 +26,17 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
     const [menu, setMenu] = useState(false);
     const [addContact, setAddContact] = useState(false);
 
+    const handleMenuAction = () => {
+        setMenu(false);
+        if (activeTab === 'contacts') {
+            setAddContact(true);
+        }
+        
+        if (activeTab === 'chats') {
+            return null
+        }
+    };
+
     const title = activeTab === 'chats' 
         ? 'Chats'
         : activeTab === 'contacts'
@@ -94,10 +105,7 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
                                         isOpen={menu} 
                                         iconSrc={iconSrc}
                                         title={iconTitle}
-                                        onClick={() => {
-                                            setMenu(false);
-                                            setAddContact(true);
-                                        }}
+                                        onClick={handleMenuAction}
                                     />
                                 </>
                             )

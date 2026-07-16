@@ -5,15 +5,17 @@ type AddContactProps = {
 }
 
 export function AddContact({ isOpen, onClose }: AddContactProps) {
-    if (!isOpen) {
-        return null;
-    }
     return (
-        <div className="fixed inset-0 z-50 flex flex-col items-center justify-center 
-            bg-black/50 rounded-2xl
-
-        ">
-            <div className="relative w-[300px] bg-zinc-200 border border-white/30 shadow-sm rounded-2xl p-4">
+        <div className={`fixed inset-0 z-50 flex flex-col items-center justify-center 
+                bg-black/50 rounded-2xl
+                transition-all duration-200 ease-in-out
+                ${ isOpen ? 'opacity-100 pointer-events-auto' : " opacity-0 pointer-events-none"}
+            `}>
+            <div className={`relative w-[300px] bg-zinc-200 border border-white/30 shadow-sm rounded-2xl p-4
+                transition-all duration-300 ease-in-out
+                ${ isOpen ? 'opacity-100 translate-y-0 scale-100' : " opacity-0 -translate-y-2 scale-95 pointer-events-none"}
+            `}
+            >
                 <button 
                     className="absolute left-2 top-2 shadow-sm rounded-full p-2 bg-zinc-100" 
                     onClick={onClose}
@@ -35,7 +37,7 @@ export function AddContact({ isOpen, onClose }: AddContactProps) {
                         />
                     </div>
                     <button 
-                        className="bg-zinc-600 text-white rounded-2xl p-2 font-medium cursor-pointer"
+                        className="bg-zinc-600 text-white rounded-3xl p-2 font-medium cursor-pointer"
                         type="submit"
                     >
                         Create
