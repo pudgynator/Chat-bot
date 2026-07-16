@@ -1,7 +1,11 @@
 import ArrowPrev from "../assets/ArrowPrev";
 import { useNavigate } from "react-router-dom";
 
-export function Settings() {
+type SettingsProps = {
+    onEdit: () => void;
+}
+
+export function Settings({ onEdit }: SettingsProps) {
     const storedUser = localStorage.getItem('user');
     const user = storedUser ? JSON.parse(storedUser) : null;
     const navigate = useNavigate();
@@ -31,6 +35,7 @@ export function Settings() {
                 </div>
                 <button 
                     className="absolute p-1 rotate-180 right-0 top-8"
+                    onClick={onEdit}
                 >
                     <ArrowPrev className="w-5 h-5 font-sm " fill="#a1a1aa"/>
                 </button>

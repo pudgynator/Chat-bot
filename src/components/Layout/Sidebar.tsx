@@ -9,6 +9,7 @@ import { Settings } from "../../ChatList/Settings";
 import { type ContactProps } from "../../types/Contact";
 import { ActionMenu } from "../ActionMenu";
 import { AddContact } from "../Contacts/AddContact";
+import { Edit } from "../Settings/Edit";
 
 type SidebarProps = {
     onSelect: (chat: ChatProps) => void;
@@ -25,6 +26,7 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
     const [search, setSearch] = useState("");
     const [menu, setMenu] = useState(false);
     const [addContact, setAddContact] = useState(false);
+    const [isEdit, setIsEdit] = useState(false);
 
     const handleMenuAction = () => {
         setMenu(false);
@@ -119,10 +121,17 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
                     ?  <Contacts contacts={filteredContacts} onStartChat={onStartChat} selectedContactId={selectedContactId}/> 
                     : activeTab === 'calls' 
                         ? <Calls/> 
-                        : activeTab === 'settings'
-                            ? <Settings/>
-                            : null 
-            }
+                        : activeTab === 'settings' && (isEdit ? (
+                                <Edit
+                                    onClose={() => setIsEdit(false)}
+                                /> )
+                            : (
+                                <Settings
+                                    onEdit={() => setIsEdit(true)}
+                                />
+                            )
+            )}
+            
             <ChatTab 
                 activeTab={activeTab}
                 onTabChange={onTabChange}
