@@ -1,10 +1,44 @@
+import { useState } from "react";
+import axios from "axios";
 
 type AddContactProps = {
     isOpen: boolean;
     onClose: () => void;
+    onCreated: () => Promise<void>;
 }
 
-export function AddContact({ isOpen, onClose }: AddContactProps) {
+export function AddContact({ isOpen, onClose, onCreated }: AddContactProps) {
+    const [name, setName ] = useState('');
+    const [phone, setPhone] = useState('');
+
+    const handleSumbit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        try {
+            const token = localStorage.getItem('token');
+
+            await axios.post(
+                'http://localhost:3000/api/contacts',
+                {
+                    name,
+                    phone,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}` 
+                    },
+                }
+            );
+            await onCreated();
+            setName('');
+            setPhone('');
+
+            onClose();
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     return (
         <div className={`fixed inset-0 z-50 flex flex-col items-center justify-center 
                 bg-black/50 rounded-2xl
@@ -24,15 +58,19 @@ export function AddContact({ isOpen, onClose }: AddContactProps) {
                 </button>
 
                 <h2 className="text-[14px] text-center mb-6">Add Contact</h2>
-                <form className="flex flex-col gap-3 ">
+                <form className="flex flex-col gap-3" onSubmit={handleSumbit}>
                     <div className="rounded-3xl px-4 bg-white shadow-sm">
                         <input
                             placeholder="Name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
                             className="w-full text-sm border-b border-zinc-300 bg-transparent py-3 outline-none"
                         />
 
                         <input
                             placeholder="Phone Number"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
                             className="w-full text-sm  py-3 outline-none"
                         />
                     </div>

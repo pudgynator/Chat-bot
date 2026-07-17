@@ -1,15 +1,14 @@
 import type { ContactProps } from "../types/Contact";
+import { formatDistanceToNow } from "date-fns";
 
 export type ChatContactProps = {
     contacts: ContactProps[];
     onStartChat: (contact: ContactProps) => void;
-    // onSelect: (ContactID: ContactProps) => void;
-    // selectedChat: ChatProps | null;
     selectedContactId: string | null;
 };
 
-export function Contacts({ contacts, onStartChat, selectedContactId }: ChatContactProps) {
 
+export function Contacts({ contacts, onStartChat, selectedContactId }: ChatContactProps) {
     return (
         <div>
             {contacts.map(contact => {
@@ -29,7 +28,14 @@ export function Contacts({ contacts, onStartChat, selectedContactId }: ChatConta
                     />
                     <button className="flex flex-col items-start gap-1">
                         <span className="text-sm leading-none">{contact.name}</span>
-                        <span className={`text-xs leading-none  ${isSelected ? ' text-white' : 'text-zinc-500' }`}>online</span>
+                        <span className={`text-xs leading-none  ${isSelected ? ' text-white' : 'text-zinc-500' }`}>
+                        Last seen{" "}
+                        { 
+                            formatDistanceToNow(new Date(contact.lastSeen), {
+                                addSuffix: true,
+                            })
+                        }
+                        </span>
                     </button>
                 </div>
                 )
