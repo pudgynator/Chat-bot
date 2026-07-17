@@ -31,18 +31,39 @@ export function Layout() {
             console.error(error);
         }
     };
+
+    const fetchContacts = async () => {
+        try {
+            const token = localStorage.getItem('token');
+
+            const response = await axios.get(
+                'http://localhost:3000/api/contacts',
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    },
+                }
+            )
+
+            setContacts(response.data);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     useEffect(() => {
         void fetchChats();
+        void fetchContacts();
     }, [])
 
     const handleStartChat = async (contact: ContactProps) => {
-        setSelectedContactId(contact.id);
+        setSelectedContactId(contact._id);
         const token = localStorage.getItem('token');
 
         const response = await axios.post(
             "http://localhost:3000/api/chats",
             {
-                userId: contact.id,
+                userId: contact._id,
             },
             {
                 headers: {
@@ -69,6 +90,7 @@ export function Layout() {
                 chats={chats}
                 contacts={contacts}
                 onStartChat={handleStartChat}
+                onContactCreated={fetchContacts}
                 selectedContactId={selectedContactId}
             />
             

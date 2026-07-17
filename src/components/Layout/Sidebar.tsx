@@ -19,10 +19,11 @@ type SidebarProps = {
     chats: ChatProps[];
     contacts: ContactProps[];
     onStartChat: (contact: ContactProps) => void;
+    onContactCreated: () => Promise<void>;
     selectedContactId: string | null;
 }
 
-export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats, contacts, onStartChat, selectedContactId }: SidebarProps) {
+export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats, contacts, onStartChat, onContactCreated, selectedContactId }: SidebarProps) {
     const [search, setSearch] = useState("");
     const [menu, setMenu] = useState(false);
     const [addContact, setAddContact] = useState(false);
@@ -138,6 +139,7 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
             />
             <AddContact
                 isOpen={addContact}
+                onCreated={onContactCreated}
                 onClose={() => setAddContact(false)}
             />
         </aside>
