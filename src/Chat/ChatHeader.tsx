@@ -8,7 +8,6 @@ export type ChatHeaderProps = {
 
 export function ChatHeader({ chat, onBack }: ChatHeaderProps) {
     console.log(chat);
-
     return(
         <div className="flex items-center gap-3">
             <button 
@@ -26,7 +25,9 @@ export function ChatHeader({ chat, onBack }: ChatHeaderProps) {
                 />
                 <button className="flex flex-col items-start gap-1">
                     <span className="text-sm leading-none">{chat.name}</span>
-                    <span className="text-xs leading-none text-zinc-500">online</span>
+                    <span className="text-xs leading-none text-zinc-500">
+                        Last seen
+                    </span>
                 </button>
             </div>
 
