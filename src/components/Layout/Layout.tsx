@@ -57,7 +57,7 @@ export function Layout() {
     }, [])
 
     const handleStartChat = async (contact: ContactProps) => {
-        setSelectedContactId(contact._id);
+        setSelectedContactId(contact.id);
         const token = localStorage.getItem('token');
 
         const response = await axios.post(

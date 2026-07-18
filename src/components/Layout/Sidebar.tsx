@@ -40,15 +40,17 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
         }
     };
 
-    const title = activeTab === 'chats' 
-        ? 'Chats'
-        : activeTab === 'contacts'
-            ? 'Contacts'
-            : activeTab === 'calls'
-                ? 'Recent Calls'
-                : activeTab === 'settings'
-                    ? 'Settings'
-                    : '';
+    const title = (activeTab === 'settings' && isEdit)
+        ? 'Edit Profile'
+        : activeTab === 'chats' 
+            ? 'Chats'
+            : activeTab === 'contacts'
+                ? 'Contacts'
+                : activeTab === 'calls'
+                    ? 'Recent Calls'
+                    : activeTab === 'settings'
+                        ? 'Settings'
+                        : null;
 
     const iconSrc = activeTab === 'chats' 
         ? '/images/edit.svg'
@@ -94,8 +96,8 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
             <div className="absolute right-4 top-4">
                 {
                     activeTab === 'settings' 
-                        ? ( <span className="text-sm">Edit</span> 
-                            ): activeTab === 'calls' 
+                        ? (!isEdit && <span className="text-sm">Edit</span>)
+                            : activeTab === 'calls' 
                             ? null : (
                                 <>
                                     <button
@@ -115,7 +117,10 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
                                 
                 }
             </div>
-            { activeTab !== 'calls' ? <SearchBar onSearch={setSearch} activeTab={activeTab}/> : null }
+            { activeTab !== 'calls' && !(activeTab === 'settings' && isEdit) 
+                ?   <SearchBar onSearch={setSearch} activeTab={activeTab}/> 
+                : null 
+            }
             {activeTab === 'chats' 
                 ?    <ChatList  filteredChats={filteredChats} onSelect={onSelect} selectedChat={selectedChat}/>
                 :    activeTab === 'contacts' 
@@ -128,7 +133,10 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
                                 /> )
                             : (
                                 <Settings
-                                    onEdit={() => setIsEdit(true)}
+                                    onEdit={() => {
+                                        setIsEdit(true);
+
+                                    }}
                                 />
                             )
             )}
