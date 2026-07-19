@@ -40,9 +40,7 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
         }
     };
 
-    const title = (activeTab === 'settings' && isEdit)
-        ? 'Edit Profile'
-        : activeTab === 'chats' 
+    const title = activeTab === 'chats' 
             ? 'Chats'
             : activeTab === 'contacts'
                 ? 'Contacts'
@@ -90,13 +88,16 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
             ${selectedChat ? "-translate-x-full" : "translate-x-0"}
              
         `}>
-            <div className="flex item-center justify-center py-4">
-                <span className="text-sm text-zinc-900">{title}</span>
-            </div>
+            {activeTab=== 'settings' && isEdit ? null : (
+                <div className="flex item-center justify-center py-4">
+                    <span className="text-sm text-zinc-900">{title}</span>
+                </div>
+            )}
+
             <div className="absolute right-4 top-4">
                 {
                     activeTab === 'settings' 
-                        ? (!isEdit && <span className="text-sm">Edit</span>)
+                        ? ( !isEdit && <span className="text-sm cursor-pointer" onClick={() => setIsEdit(true)}>Edit</span>)
                             : activeTab === 'calls' 
                             ? null : (
                                 <>
@@ -127,19 +128,32 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
                     ?  <Contacts contacts={filteredContacts} onStartChat={onStartChat} selectedContactId={selectedContactId}/> 
                     : activeTab === 'calls' 
                         ? <Calls/> 
-                        : activeTab === 'settings' && (isEdit ? (
-                                <Edit
-                                    onClose={() => setIsEdit(false)}
-                                /> )
-                            : (
-                                <Settings
-                                    onEdit={() => {
-                                        setIsEdit(true);
-
-                                    }}
-                                />
-                            )
-            )}
+                        : activeTab === 'settings' && (
+                            <div className="relative flex-1 overflow-hidden">
+                                <div className={`absolute inset-0 transition-all duration-300 ease-in-out
+                                    ${  isEdit  ? "-translate-x-8 opacity-0 pointer-events-none"
+                                                : "translate-x-0 opacity-100"
+                                    }
+                                    `}
+                                >
+                                    <Settings
+                                        onEdit={() => setIsEdit(true)}
+                                    />
+                                </div>
+                    
+                                <div className={`absolute inset-0 transition-all duration-300 ease-in-out
+                                    ${isEdit  ? "translate-x-0 opacity-100"
+                                            : "translate-x-full opacity-0 pointer-events-none"
+                                    }
+                                    `}
+                                >
+                                    <Edit
+                                        onClose={() => setIsEdit(false)}
+                                    />
+                                </div>
+                            </div>
+                        )
+            }
             
             <ChatTab 
                 activeTab={activeTab}

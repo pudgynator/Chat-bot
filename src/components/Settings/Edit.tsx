@@ -22,18 +22,19 @@ export function Edit({ onClose }: EditProps) {
     }
     return (
         <div className="flex flex-col h-full px-4">
-            <div className="flex absolute top-0 left-0 right-0 min-w-[300px] items-center justify-between py-2 px-4 z-10">
+            <div className="flex min-w-[300px] items-center justify-between py-2 z-10">
                 <button 
                     onClick={onClose}
                     className="p-2 rounded-full bg-zinc-100 shadow-lg"
                 >
                     <ArrowPrev className="w-5 h-5 font-sm " fill="#black"/>
                 </button>
+                <p className="text-sm text-zinc-900">Edit Profile</p>
                 <button className="p-2 rounded-full text-zinc-900 bg-zinc-100 shadow-lg">
                     Done
                 </button>
             </div>
-            <div className="relative flex gap-2 bg-zinc-100 rounded-2xl px-3 py-4 mt-4 shadow-sm mb-2">
+            <div className="flex gap-2 bg-zinc-100 rounded-2xl px-3 py-4 mt-4 shadow-sm mb-2">
                 <img
                     src='/images/default-ava.jpg'
                     alt="User avatar" 
