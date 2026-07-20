@@ -57,13 +57,14 @@ export function Layout() {
     }, [])
 
     const handleStartChat = async (contact: ContactProps) => {
-        setSelectedContactId(contact.id);
+        try {
+            setSelectedContactId(contact.id);
         const token = localStorage.getItem('token');
 
         const response = await axios.post(
             "http://localhost:3000/api/chats",
             {
-                userId: contact._id,
+                userId: contact.id,
             },
             {
                 headers: {
@@ -77,6 +78,11 @@ export function Layout() {
 
         setSelectedChat(chat);
         setActiveTab('chats');
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                console.log(error.response?.data);
+            }
+        }
     }
 
     return (

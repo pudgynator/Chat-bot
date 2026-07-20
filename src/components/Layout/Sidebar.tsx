@@ -68,7 +68,7 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
                 ? 'New Call'
                 : activeTab === 'settings'
                     ? null : null;
-
+     console.log(contacts);
     const filteredChats = chats.filter(chat => 
         chat.name
             .toLowerCase()
