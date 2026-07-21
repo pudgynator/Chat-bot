@@ -10,6 +10,7 @@ import { type ContactProps } from "../../types/Contact";
 import { ActionMenu } from "../ActionMenu";
 import { AddContact } from "../Contacts/AddContact";
 import { Edit } from "../Settings/Edit";
+import { NewGroup } from "../Groups/NewGroup";
 
 type SidebarProps = {
     onSelect: (chat: ChatProps) => void;
@@ -28,6 +29,7 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
     const [menu, setMenu] = useState(false);
     const [addContact, setAddContact] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
+    const [newGroup, setNewGroup] = useState(false)
 
     const handleMenuAction = () => {
         setMenu(false);
@@ -36,7 +38,7 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
         }
         
         if (activeTab === 'chats') {
-            return null
+            setNewGroup(true)
         }
     };
 
@@ -88,7 +90,7 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
             ${selectedChat ? "-translate-x-full" : "translate-x-0"}
              
         `}>
-            {activeTab=== 'settings' && isEdit ? null : (
+            {activeTab=== 'settings' && isEdit || newGroup ? null : (
                 <div className="flex item-center justify-center py-4">
                     <span className="text-sm text-zinc-900">{title}</span>
                 </div>
@@ -98,7 +100,7 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
                 {
                     activeTab === 'settings' 
                         ? ( !isEdit && <span className="text-sm cursor-pointer" onClick={() => setIsEdit(true)}>Edit</span>)
-                            : activeTab === 'calls' 
+                            : activeTab === 'calls' || newGroup
                             ? null : (
                                 <>
                                     <button
@@ -118,14 +120,14 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
                                 
                 }
             </div>
-            { activeTab !== 'calls' && !(activeTab === 'settings' && isEdit) 
+            { activeTab !== 'calls' && !(activeTab === 'settings' && isEdit || newGroup) 
                 ?   <SearchBar onSearch={setSearch} activeTab={activeTab}/> 
                 : null 
             }
-            {activeTab === 'chats' 
-                ?    <ChatList  filteredChats={filteredChats} onSelect={onSelect} selectedChat={selectedChat}/>
-                :    activeTab === 'contacts' 
-                    ?  <Contacts contacts={filteredContacts} onStartChat={onStartChat} selectedContactId={selectedContactId}/> 
+            {activeTab === 'chats' ? (newGroup  ? (
+                    <NewGroup contacts={contacts} onClose={() => setNewGroup(false)} /> 
+                ) : <ChatList  filteredChats={filteredChats} onSelect={onSelect} selectedChat={selectedChat}/>
+                ) : activeTab === 'contacts' ?  <Contacts contacts={filteredContacts} onStartChat={onStartChat} selectedContactId={selectedContactId}/> 
                     : activeTab === 'calls' 
                         ? <Calls/> 
                         : activeTab === 'settings' && (
@@ -155,10 +157,10 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
                         )
             }
             
-            <ChatTab 
+            { activeTab === 'chats' && newGroup ? null : <ChatTab 
                 activeTab={activeTab}
                 onTabChange={onTabChange}
-            />
+            />}
             <AddContact
                 isOpen={addContact}
                 onCreated={onContactCreated}
