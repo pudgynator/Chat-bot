@@ -52,8 +52,14 @@ export function Layout() {
     }
 
     useEffect(() => {
-        void fetchChats();
-        void fetchContacts();
+        const loadData = async () => {
+            await Promise.all([
+                fetchChats(),
+                fetchContacts(),
+            ]);
+        };
+    
+        loadData();
     }, [])
 
     const handleStartChat = async (contact: ContactProps) => {
