@@ -11,6 +11,8 @@ import { ActionMenu } from "../ActionMenu";
 import { AddContact } from "../Contacts/AddContact";
 import { Edit } from "../Settings/Edit";
 import { NewGroup } from "../Groups/NewGroup";
+import { sidebarTabs } from "../../constants/sidebarTabs";
+import { filterUsers } from "../../utils/filter";
 
 type SidebarProps = {
     onSelect: (chat: ChatProps) => void;
@@ -42,46 +44,20 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
         }
     };
 
-    const title = activeTab === 'chats' 
-            ? 'Chats'
-            : activeTab === 'contacts'
-                ? 'Contacts'
-                : activeTab === 'calls'
-                    ? 'Recent Calls'
-                    : activeTab === 'settings'
-                        ? 'Settings'
-                        : null;
+    const currentTab = sidebarTabs[activeTab as keyof typeof sidebarTabs];
+    const title = currentTab.title;
+    const iconSrc = currentTab.iconSrc;
+    const iconTitle = currentTab.iconTitle;
+    const filteredChats = filterUsers(chats, search);
+    const filteredContacts = filterUsers(contacts, search)
 
-    const iconSrc = activeTab === 'chats' 
-        ? '/images/edit.svg'
-        : activeTab === 'contacts'
-            ? '/images/new-contact.svg'
-            : activeTab === 'calls'
-                ? '/images/new-call.svg'
-                : activeTab === 'settings'
-                    ? 'Settings'
-                    : '';
-
-    const iconTitle = activeTab === 'chats'
-        ? 'New Group'
-        : activeTab === 'contacts'
-            ? 'New Contact'
-            : activeTab === 'calls'
-                ? 'New Call'
-                : activeTab === 'settings'
-                    ? null : null;
-     console.log(contacts);
-    const filteredChats = chats.filter(chat => 
-        chat.name
-            .toLowerCase()
-            .includes(search.toLowerCase())
-    )
-
-    const filteredContacts = contacts.filter(contact => 
-        contact.name
-            .toLowerCase()
-            .includes(search.toLowerCase())
-    )
+    const isEditSettings = activeTab === "settings" && isEdit;
+    const hideHeader = isEditSettings || newGroup;
+    const hideSearch = activeTab === 'calls' || hideHeader;
+    const hideChatTab = activeTab === "chats" && newGroup && isEdit;
+    const hideActionMenu =  (activeTab === "chats" || activeTab === "contacts") && menu;
+    const showEditButton = activeTab === "settings" && !isEdit;
+    const showIcon = activeTab !== "settings" && !newGroup;
 
     return (
         <aside className={`relative flex flex-col h-full w-full bg-white px-0.5 flex-shrink-0
@@ -90,40 +66,38 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
             ${selectedChat ? "-translate-x-full" : "translate-x-0"}
              
         `}>
-            {activeTab=== 'settings' && isEdit || newGroup ? null : (
-                <div className="flex item-center justify-center py-4">
+            { !hideHeader && (
+                <div className="flex items-center justify-center py-4">
                     <span className="text-sm text-zinc-900">{title}</span>
                 </div>
             )}
 
             <div className="absolute right-4 top-4">
-                {
-                    activeTab === 'settings' 
-                        ? ( !isEdit && <span className="text-sm cursor-pointer" onClick={() => setIsEdit(true)}>Edit</span>)
-                            : activeTab === 'calls' || newGroup
-                            ? null : (
-                                <>
-                                    <button
-                                        className="relative cursor-pointer"
-                                        onClick={() => setMenu(!menu)}
-                                    >
-                                        <img src={iconSrc} alt="Icon" width='24px' height='24px'/>
-                                    </button>
-                                    <ActionMenu 
-                                        isOpen={menu} 
-                                        iconSrc={iconSrc}
-                                        title={iconTitle}
-                                        onClick={handleMenuAction}
-                                    />
-                                </>
-                            )
-                                
+                { showEditButton 
+                    ? (<span 
+                        className="text-sm cursor-pointer" 
+                        onClick={() => setIsEdit(true)}
+                    >
+                        Edit
+                    </span>) : showIcon ? (
+                            <>
+                                <button
+                                    className="relative cursor-pointer"
+                                    onClick={() => setMenu(!menu)}
+                                >
+                                    <img src={iconSrc} alt="Icon" width='24px' height='24px'/>
+                                </button>
+                                {hideActionMenu && (<ActionMenu 
+                                    isOpen={menu} 
+                                    iconSrc={iconSrc}
+                                    title={iconTitle}
+                                    onClick={handleMenuAction}
+                                />)}
+                            </>
+                        ) : null     
                 }
             </div>
-            { activeTab !== 'calls' && !(activeTab === 'settings' && isEdit || newGroup) 
-                ?   <SearchBar onSearch={setSearch} activeTab={activeTab}/> 
-                : null 
-            }
+            { !hideSearch && <SearchBar onSearch={setSearch} activeTab={activeTab} /> }
             {activeTab === 'chats' ? (newGroup  ? (
                     <NewGroup contacts={contacts} onClose={() => setNewGroup(false)} /> 
                 ) : <ChatList  filteredChats={filteredChats} onSelect={onSelect} selectedChat={selectedChat}/>
@@ -133,8 +107,9 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
                         : activeTab === 'settings' && (
                             <div className="relative flex-1 overflow-hidden">
                                 <div className={`absolute inset-0 transition-all duration-300 ease-in-out
-                                    ${  isEdit  ? "-translate-x-8 opacity-0 pointer-events-none"
-                                                : "translate-x-0 opacity-100"
+                                    ${  isEdit  
+                                        ? "-translate-x-8 opacity-0 pointer-events-none"
+                                        : "translate-x-0 opacity-100"
                                     }
                                     `}
                                 >
@@ -157,10 +132,10 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
                         )
             }
             
-            { activeTab === 'chats' && newGroup ? null : <ChatTab 
+            { !hideChatTab && (<ChatTab 
                 activeTab={activeTab}
                 onTabChange={onTabChange}
-            />}
+            />)}
             <AddContact
                 isOpen={addContact}
                 onCreated={onContactCreated}
