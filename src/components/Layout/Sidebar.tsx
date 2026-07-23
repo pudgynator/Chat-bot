@@ -102,7 +102,7 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
             { !hideSearch && <SearchBar onSearch={setSearch} activeTab={activeTab} /> }
             {activeTab === 'chats' ? ( 
                 <div className="relative flex-1 overflow-hidden">
-                    <div className={`absolute transition-all ease-in-out duration-300
+                    <div className={`absolute inset-0 transition-all ease-in-out duration-300
                             ${newGroup 
                                 ? '-translate-x-8 opacity-0 pointer-events-none'
                                 : 'translate-x-0 opacity-100'
@@ -123,7 +123,7 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
                     : activeTab === 'calls' 
                         ? <Calls/> 
                         : activeTab === 'settings' && (
-                            <div className="relative flex-1 overflow-hidden">
+                            <div className="relative inset-0 flex-1 overflow-hidden">
                                 <div className={`absolute inset-0 transition-all duration-300 ease-in-out
                                     ${  isEdit  
                                         ? "-translate-x-8 opacity-0 pointer-events-none"
