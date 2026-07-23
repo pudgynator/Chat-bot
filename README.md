@@ -1,75 +1,76 @@
-# React + TypeScript + Vite
+# React Chat Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack real-time chat application inspired by modern messaging platforms. The project is built with React, Node.js, Express, MongoDB, and TypeScript.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+### Authentication
+- User registration
+- User login with JWT authentication
+- Password hashing using bcrypt
+- Protected API routes
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+### Contacts
+- View personal contact list
+- Add contacts by phone number
+- Prevent duplicate contacts
+- Quickly start conversations from the contact list
 
-Note: This will impact Vite dev & build performances.
+### Chats
+- View all existing chats
+- Create a new chat by selecting a contact
+- Automatically open an existing conversation if one already exists
+- Search chats by name
+- Responsive chat navigation
 
-## Expanding the ESLint configuration
+### Profile
+- View profile information
+- Edit user profile
+- Logout functionality
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### User Interface
+- Responsive design
+- Mobile-friendly layout
+- Animated transitions between pages
+- Sidebar navigation
+- Search functionality
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Tech Stack
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Axios
+- React Router
+- date-fns
+
+---
+
+## Installation
+
+### Clone repository
+
+```bash
+git clone https://github.com/pudgynator/Chat-bot
+```
+---
+
+### Install frontend dependencies
+
+```bash
+cd client
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Running the Application
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+```bash
+cd client
+npm run dev
