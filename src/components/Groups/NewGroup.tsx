@@ -32,14 +32,18 @@ export function NewGroup({ contacts, onClose }: NewGroupProps) {
                 </button>
             </div>
 
-            <div className="flex flex-col bg-zinc-100 h-full rounded-2xl p-2">
-                <input 
-                    type="text" 
-                    placeholder="Who would you like to add?"
-                    className="text-sm bg-white text-zinc-400 rounded-xl py-1 px-2 mb-2 outline-none"
-                />
-                <span className="text-sm w-full bg-white text-zinc-300 rounded-xl px-2">CONTACTS</span>
-                <div className="flex flex-col py-2">
+            <div className="flex flex-col bg-zinc-100 h-full rounded-2xl overflow-hidden">
+                <div className="p-2 w-full"> 
+                    <input 
+                        type="text" 
+                        placeholder="Who would you like to add?"
+                        className="text-sm bg-white text-zinc-400 rounded-xl py-1 px-2 mb-2 w-full outline-none"
+                    />
+                </div>
+                <div className="text-xs text-zinc-400 px-4 uppercase w-full bg-zinc-200 border-y border-zinc-200  ">
+                    contacts
+                </div>
+                <div className="flex flex-col py-2 px-2 overflow-auto">
                     {contacts.map(contact => {
                         const isSelected = selectedContacts.includes(contact.id)
                         return (

@@ -40,7 +40,9 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
         }
         
         if (activeTab === 'chats') {
-            setNewGroup(true)
+            setTimeout(() => {
+                setNewGroup(true)
+            }, 150)
         }
     };
 
@@ -54,7 +56,7 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
     const isEditSettings = activeTab === "settings" && isEdit;
     const hideHeader = isEditSettings || newGroup;
     const hideSearch = activeTab === 'calls' || hideHeader;
-    const hideChatTab = activeTab === "chats" && newGroup && isEdit;
+    const hideChatTab = activeTab === "chats" && newGroup || isEdit;
     const hideActionMenu =  (activeTab === "chats" || activeTab === "contacts") && menu;
     const showEditButton = activeTab === "settings" && !isEdit;
     const showIcon = activeTab !== "settings" && !newGroup;
@@ -73,8 +75,8 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
             )}
 
             <div className="absolute right-4 top-4">
-                { showEditButton 
-                    ? (<span 
+                { showEditButton ? 
+                    (<span 
                         className="text-sm cursor-pointer" 
                         onClick={() => setIsEdit(true)}
                     >
@@ -87,7 +89,7 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
                                 >
                                     <img src={iconSrc} alt="Icon" width='24px' height='24px'/>
                                 </button>
-                                {hideActionMenu && (<ActionMenu 
+                                { hideActionMenu && (<ActionMenu 
                                     isOpen={menu} 
                                     iconSrc={iconSrc}
                                     title={iconTitle}
@@ -98,9 +100,25 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
                 }
             </div>
             { !hideSearch && <SearchBar onSearch={setSearch} activeTab={activeTab} /> }
-            {activeTab === 'chats' ? (newGroup  ? (
-                    <NewGroup contacts={contacts} onClose={() => setNewGroup(false)} /> 
-                ) : <ChatList  filteredChats={filteredChats} onSelect={onSelect} selectedChat={selectedChat}/>
+            {activeTab === 'chats' ? ( 
+                <div className="relative flex-1 overflow-hidden">
+                    <div className={`absolute transition-all ease-in-out duration-300
+                            ${newGroup 
+                                ? '-translate-x-8 opacity-0 pointer-events-none'
+                                : 'translate-x-0 opacity-100'
+                            }`}
+                    >
+                        <ChatList  filteredChats={filteredChats} onSelect={onSelect} selectedChat={selectedChat}/>
+                    </div>
+                    <div className={`absoulte transition-all ease-in-out duration-300
+                        ${ newGroup 
+                                ? 'translate-x-0 opacity-100'
+                                : 'translate-x-full opacity-0 pointer-events-none'
+                        }`}
+                    >
+                        <NewGroup contacts={contacts} onClose={() => setNewGroup(false)} /> 
+                    </div>
+                </div>
                 ) : activeTab === 'contacts' ?  <Contacts contacts={filteredContacts} onStartChat={onStartChat} selectedContactId={selectedContactId}/> 
                     : activeTab === 'calls' 
                         ? <Calls/> 
@@ -110,8 +128,7 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
                                     ${  isEdit  
                                         ? "-translate-x-8 opacity-0 pointer-events-none"
                                         : "translate-x-0 opacity-100"
-                                    }
-                                    `}
+                                    }`}
                                 >
                                     <Settings
                                         onEdit={() => setIsEdit(true)}
@@ -119,10 +136,10 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
                                 </div>
                     
                                 <div className={`absolute inset-0 transition-all duration-300 ease-in-out
-                                    ${isEdit  ? "translate-x-0 opacity-100"
-                                            : "translate-x-full opacity-0 pointer-events-none"
-                                    }
-                                    `}
+                                    ${  isEdit  
+                                        ? "translate-x-0 opacity-100"
+                                        : "translate-x-full opacity-0 pointer-events-none"
+                                    }`}
                                 >
                                     <Edit
                                         onClose={() => setIsEdit(false)}
@@ -135,7 +152,8 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
             { !hideChatTab && (<ChatTab 
                 activeTab={activeTab}
                 onTabChange={onTabChange}
-            />)}
+                />)
+            }
             <AddContact
                 isOpen={addContact}
                 onCreated={onContactCreated}
