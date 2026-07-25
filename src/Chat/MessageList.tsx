@@ -1,10 +1,21 @@
+import { useEffect, useRef } from "react";
 import type { MessageProps } from "../types/Message";
+import { MessageItem } from "./MessageItem";
 
 export type  MessagesListProps = {
     messages: MessageProps[];
+    currentUserId: string;
 }
 
-export function MessageList({ messages }: MessagesListProps) {
+export function MessageList({ messages, currentUserId }: MessagesListProps) {
+    const  messagesEndRef = useRef<HTMLDivElement | null>(null);
+    const scrollToEnd = () => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "instant" })
+    };
+    useEffect(() => {
+        scrollToEnd();
+    }, [messages]);
+
     if (messages.length === 0) {
         return (
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
@@ -14,17 +25,19 @@ export function MessageList({ messages }: MessagesListProps) {
             </div> 
         )
     }
-    return (
-        <div className="flex flex-col gap-1 overflow-y-auto py-2 mt-auto">
-           {messages.map(message => (
-                <div 
-                    key={message.id}
-                    className="bg-white py-2 px-3 w-max rounded-3xl ml-auto mt-auto"
-                >
-                    {message.text}
-                </div>
-           ))}
 
+
+
+    return (
+        <div className="flex flex-col gap-1 overflow-y-auto py-2 w-full">
+           {messages.map((message, index) => (
+                <MessageItem
+                    key={message.id || index}
+                    message={message}
+                    currentUserId={currentUserId}
+                />
+            ))}
+            <div ref={messagesEndRef}/>
         </div>
     )
 }

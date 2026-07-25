@@ -5,17 +5,24 @@ import { ChatHeader } from "./ChatHeader";
 import { MessageList } from "./MessageList";
 import type { MessageProps } from "../types/Message";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 type ChatComponentProps = {
     chat: ChatProps;
     onBack: () => void;
-}
+};
+
+type JwtPayload = {
+    userId: string;
+};
 
 export function Chat({ chat, onBack }: ChatComponentProps) {
     const [messages, setMessages] = useState<MessageProps[]>([]);
     const handleMessageSend = (message: MessageProps) => {
         setMessages(prev => [...prev, message]);
     }
+    const token = localStorage.getItem("token");
+    const currentUserId =  token ? jwtDecode<JwtPayload>(token).userId : "";
 
     useEffect(() => {
         const fetchMessages = async () => {
@@ -31,7 +38,6 @@ export function Chat({ chat, onBack }: ChatComponentProps) {
                     }
                 );
 
-                console.log(response.data);
                 setMessages(response.data);
             } catch (error) {
                 console.error(error)
@@ -46,7 +52,10 @@ export function Chat({ chat, onBack }: ChatComponentProps) {
                 chat={chat}
                 onBack={onBack}
             />
-            <MessageList messages={messages}/>
+            <MessageList 
+                messages={messages}
+                currentUserId={currentUserId}
+            />
             <ChatBody
                 chatId={chat.id}
                 onMessageSent={handleMessageSend}
