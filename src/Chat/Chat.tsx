@@ -26,7 +26,10 @@ export function Chat({ chat, onBack }: ChatComponentProps) {
 
     useEffect(() => {
         const fetchMessages = async () => {
+            const chatId = chat.id;
+            if (!chatId) return;
             try {
+
                 const token = localStorage.getItem('token');
 
                 const response = await axios.get(

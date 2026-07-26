@@ -65,25 +65,47 @@ export function Layout() {
     const handleStartChat = async (contact: ContactProps) => {
         try {
             setSelectedContactId(contact.id);
-        const token = localStorage.getItem('token');
+            const token = localStorage.getItem('token');
+            const isExist = chats.find((c) => {
+                return c.members?.some((m) => {
+                    const memberId = typeof m === 'object' && m !== null ?  m.id : m;
+                    return String(memberId) === String(contact.id);
+                })
+            })
 
-        const response = await axios.post(
-            "http://localhost:3000/api/chats",
-            {
-                userId: contact.id,
-            },
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+            if (isExist) {
+                setSelectedChat({
+                    ...isExist,
+                    id: isExist._id || isExist.id,
+                    name: isExist.name || contact.name,
+                });
+                setActiveTab('chats');
+                return;
             }
-        )
-        const chat = response.data;
 
-        await fetchChats();
+            const response = await axios.post(
+                "http://localhost:3000/api/chats",
+                {
+                    userId: contact.id,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            )
 
-        setSelectedChat(chat);
-        setActiveTab('chats');
+            const chat = {
+                ...response.data,
+                id: response.data._id || response.data.id,
+                _id: response.data._id || response.data.id,
+                name: contact.name,
+            };
+
+            await fetchChats();
+
+            setSelectedChat(chat);
+            setActiveTab('chats');
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 console.log(error.response?.data);
