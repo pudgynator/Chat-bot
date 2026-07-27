@@ -43,7 +43,7 @@ export function NewGroup({ contacts, onClose }: NewGroupProps) {
                 <div className="text-xs text-zinc-400 px-4 uppercase w-full bg-zinc-200 border-y border-zinc-200  ">
                     contacts
                 </div>
-                <div className="flex flex-col py-2 px-2 overflow-auto">
+                <div className="flex flex-col py-2 px-2 overflow-auto h-full">
                     {contacts.map(contact => {
                         const isSelected = selectedContacts.includes(contact.id)
                         return (
