@@ -12,7 +12,7 @@ type ChatComponentProps = {
     onBack: () => void;
 };
 
-type JwtPayload = {
+export type JwtPayload = {
     userId: string;
 };
 

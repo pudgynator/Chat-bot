@@ -26,7 +26,7 @@ export function ChatHeader({ chat, onBack }: ChatHeaderProps) {
                 <button className="flex flex-col items-start gap-1">
                     <span className="text-sm leading-none">{chat.name}</span>
                     <span className="text-xs leading-none text-zinc-500">
-                        Last seen
+                            Last seen recently
                     </span>
                 </button>
             </div>
