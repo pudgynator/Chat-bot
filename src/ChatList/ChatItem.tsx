@@ -2,12 +2,17 @@ import type { ChatProps } from "../types/Chats";
 
 export type ChatItemProps = {
     chat: ChatProps;
-    onSelect: (id: ChatProps) => void;
+    onSelect: (chat: ChatProps) => void;
     selectedChat: ChatProps | null;
+    currentUserId: string;
 }
 
-export function ChatItem({ chat, onSelect, selectedChat }: ChatItemProps) {
-
+export function ChatItem({ chat, onSelect, selectedChat, currentUserId }: ChatItemProps) {
+    const isMyLastMessage = Boolean(
+        chat.lastMessageSender &&
+        currentUserId &&
+        String(chat.lastMessageSender) === String(currentUserId)
+    );
     return (
         <button
             onClick={() => onSelect(chat)}
@@ -45,12 +50,19 @@ export function ChatItem({ chat, onSelect, selectedChat }: ChatItemProps) {
                     </span>
                 </div>
 
-                <p className={`text-sm  truncate
+                <p className={`flex flex-col text-sm truncate
                     ${selectedChat === chat 
                         ? 'text-white' 
                         : 'text-zinc-400'}
                 `}>
-                    {chat.lastMessage}
+                    {chat.lastMessage ? (
+                        <>
+                            {isMyLastMessage && <span className="font-medium text-zinc-500">You</span>}
+                            {chat.lastMessage}
+                        </> 
+                    ) : (
+                        'No messages yet'
+                    )}
                 </p>
             </div>
     </button>
