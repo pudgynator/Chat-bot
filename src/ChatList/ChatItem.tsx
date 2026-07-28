@@ -1,4 +1,5 @@
 import type { ChatProps } from "../types/Chats"; 
+import { formatTime } from "../utils/formatTime";
 
 export type ChatItemProps = {
     chat: ChatProps;
@@ -13,11 +14,12 @@ export function ChatItem({ chat, onSelect, selectedChat, currentUserId }: ChatIt
         currentUserId &&
         String(chat.lastMessageSender) === String(currentUserId)
     );
+    const formattedTime = formatTime(chat.updatedAt);
     return (
         <button
             onClick={() => onSelect(chat)}
             className={`
-                flex items-start gap-2 w-full px-2 py-2 focus:outline-none text-left
+                flex items-center gap-2 w-full px-2 py-2 focus:outline-none text-left
                 ${selectedChat === chat 
                     ? 'bg-[#454545] rounded-2xl text-white' 
                     : 'bg-white border-b border-zinc-100'
@@ -41,13 +43,15 @@ export function ChatItem({ chat, onSelect, selectedChat, currentUserId }: ChatIt
                         {chat.name}
                     </span>
 
-                    <span className={`flex text-xs 
-                        ${selectedChat === chat
-                            ? 'text-white' 
-                            : 'text-zinc-400'}
-                    `}>
-                        {chat.time}
-                    </span>
+                    {formattedTime && (
+                        <span className={`flex text-xs 
+                            ${selectedChat === chat
+                                ? 'text-white' 
+                                : 'text-zinc-400'}
+                        `}>
+                            {formattedTime}
+                        </span>
+                    )}
                 </div>
 
                 <p className={`flex flex-col text-sm truncate
