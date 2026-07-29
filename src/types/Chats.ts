@@ -4,6 +4,7 @@ export type ChatProps = {
     name: string;
     lastMessage?: string;
     lastMessageSender?: string;
+    lastSeen?: string;
     time?: string;
     avatar?: string; 
     updatedAt: string;
