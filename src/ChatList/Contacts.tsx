@@ -29,12 +29,18 @@ export function Contacts({ contacts, onStartChat, selectedContactId }: ChatConta
                     <button className="flex flex-col items-start gap-1">
                         <span className="text-sm leading-none">{contact.name}</span>
                         <span className={`text-xs leading-none  ${isSelected ? ' text-white' : 'text-zinc-500' }`}>
-                        Last seen{" "}
-                        { 
-                            formatDistanceToNow(new Date(contact.lastSeen), {
-                                addSuffix: true,
-                            })
-                        }
+                            {contact?.lastSeen ? (
+                                <>
+                                    Last seen{" "}
+                                    {formatDistanceToNow(new Date(contact.lastSeen), {
+                                            addSuffix: true,
+                                        })
+                                    }
+                                </>
+                            ): (
+                                'Last seen recently'
+                            )}
+
                         </span>
                     </button>
                 </div>

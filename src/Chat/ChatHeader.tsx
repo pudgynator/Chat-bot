@@ -1,5 +1,6 @@
 import type { ChatProps } from "../types/Chats";
 import ArrowPrev  from "../assets/ArrowPrev";
+import { formatDistanceToNow } from "date-fns";
 
 export type ChatHeaderProps = {
     chat: ChatProps;
@@ -8,6 +9,21 @@ export type ChatHeaderProps = {
 
 export function ChatHeader({ chat, onBack }: ChatHeaderProps) {
     console.log(chat);
+    const renderLastSeen = () => {
+        if (!chat.lastSeen) return 'Last seen recently';
+        try {
+            return (
+                <>
+                    Last seen{" "}
+                    {formatDistanceToNow(new Date(chat.lastSeen), {
+                        addSuffix: true,
+                    })}
+                </>
+            );
+        } catch {
+            return 'Last seen recently';
+        }
+    }
     return(
         <div className="flex items-center gap-3">
             <button 
@@ -26,7 +42,7 @@ export function ChatHeader({ chat, onBack }: ChatHeaderProps) {
                 <button className="flex flex-col items-start gap-1">
                     <span className="text-sm leading-none">{chat.name}</span>
                     <span className="text-xs leading-none text-zinc-500">
-                            Last seen recently
+                        {renderLastSeen()}
                     </span>
                 </button>
             </div>

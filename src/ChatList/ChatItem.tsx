@@ -54,14 +54,17 @@ export function ChatItem({ chat, onSelect, selectedChat, currentUserId }: ChatIt
                     )}
                 </div>
 
-                <p className={`flex flex-col text-sm truncate
+                <p className={`flex flex-col text-sm truncate font-light
                     ${selectedChat === chat 
                         ? 'text-white' 
                         : 'text-zinc-400'}
                 `}>
                     {chat.lastMessage ? (
                         <>
-                            {isMyLastMessage && <span className="font-medium text-zinc-500">You</span>}
+                            {isMyLastMessage && 
+                            <span className={`font-light ${selectedChat === chat ? 'text-white' : 'text-zinc-500'}`}>
+                                You
+                            </span>}
                             {chat.lastMessage}
                         </> 
                     ) : (
