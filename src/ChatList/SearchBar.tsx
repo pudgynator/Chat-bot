@@ -14,7 +14,7 @@ export function SearchBar({ onSearch, activeTab }: SearchBarProps) {
 
     return (
         <div className={`
-            w-full px-4 border-zinc-100
+            w-full px-2 border-zinc-100
             ${activeTab === 'settings' ? 'border-b-0' : 'border-b'}
         `}>
             <div className="relative">

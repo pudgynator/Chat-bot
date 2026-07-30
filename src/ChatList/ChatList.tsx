@@ -13,7 +13,7 @@ export function ChatList({ onSelect, selectedChat, filteredChats  }: ChatListPro
     const token = localStorage.getItem('token')
     const currentUserId =  token ? jwtDecode<JwtPayload>(token).userId : "";
     return (
-        <div className="flex flex-1 flex-col">
+        <div className="flex flex-1 flex-col px-1">
             {filteredChats.map(chat => (
                     <ChatItem
                         currentUserId={currentUserId}

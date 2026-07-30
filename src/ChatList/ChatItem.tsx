@@ -32,28 +32,13 @@ export function ChatItem({ chat, onSelect, selectedChat, currentUserId }: ChatIt
                 className=" rounded-full w-13 h-13"
             />
 
-            <div className="flex-1 min-w-0">
-                <div className="flex justify-between">
-                    <span className={`font-medium text-sm
-                        ${selectedChat === chat 
-                        ? 'text-white' 
-                        : 'text-zinc-900'}
-                    `}
-                    >
-                        {chat.name}
-                    </span>
-
-                    {formattedTime && (
-                        <span className={`flex text-xs 
-                            ${selectedChat === chat
-                                ? 'text-white' 
-                                : 'text-zinc-400'}
-                        `}>
-                            {formattedTime}
-                        </span>
-                    )}
-                </div>
-
+            <div className="flex flex-col self-stretch flex-1 ">
+                <span className={`font-medium text-sm
+                    ${selectedChat === chat ? 'text-white' : 'text-zinc-900'}`}
+                >
+                    {chat.name}
+                </span>
+                    
                 <p className={`flex flex-col text-sm truncate font-light
                     ${selectedChat === chat 
                         ? 'text-white' 
@@ -71,6 +56,29 @@ export function ChatItem({ chat, onSelect, selectedChat, currentUserId }: ChatIt
                         'No messages yet'
                     )}
                 </p>
+            </div> 
+
+            <div className="flex flex-col items-end gap-2 justify-between self-stretch shrink-0">
+                {formattedTime && (
+                    <span className={`flex text-xs 
+                        ${selectedChat === chat
+                            ? 'text-white' 
+                            : 'text-zinc-400'}
+                    `}>
+                        {formattedTime}
+                    </span>
+                )}
+                {Boolean(chat.unreadCount && chat.unreadCount > 0) && (
+                    <span className={`flex p-0.5 items-center justify-center rounded-full
+                        text-xs w-5 h-5 font-semibold leading-none
+                        ${selectedChat === chat 
+                            ? 'text-zinc-400 bg-white' 
+                            : 'text-white bg-[#454545]'
+                        }`}
+                    >
+                        {chat.unreadCount! > 99 ? '99+' : chat.unreadCount}
+                    </span>
+                )}
             </div>
     </button>
     )
