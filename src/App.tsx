@@ -8,8 +8,12 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 
 function App() {
     const fetchAPI = async () => {
-        const response = await axios.get("http://localhost:3000/api");
-        console.log(response.data);
+        try {
+            const response = await axios.get(`${import.meta.env['VITE_API_URL']}/api`);
+            console.log(response.data);
+        } catch (error) {
+            console.error('Error:', error);
+        }
     };
 
     useEffect(() => {
