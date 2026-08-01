@@ -16,7 +16,7 @@ export function ChatBody({ chatId, onMessageSent }: ChatBodyProps){
         try {
             const token = localStorage.getItem('token');
             const response = await axios.post(
-                'http://localhost:3000/api/messages',
+                `${import.meta.env['VITE_API_URL']}/api/messages`,
                 {
                     chatId,
                     text,

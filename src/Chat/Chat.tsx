@@ -33,7 +33,7 @@ export function Chat({ chat, onBack }: ChatComponentProps) {
                 const token = localStorage.getItem('token');
 
                 const response = await axios.get(
-                    `http://localhost:3000/api/messages/${chat.id}`,
+                    `${import.meta.env['VITE_API_URL']}/api/${chat.id}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`

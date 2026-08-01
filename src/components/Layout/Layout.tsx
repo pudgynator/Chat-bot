@@ -19,7 +19,7 @@ export function Layout() {
             const token = localStorage.getItem('token');
 
             const response = await axios.get(
-                'http://localhost:3000/api/chats',
+                `${import.meta.env['VITE_API_URL']}/api/chats`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,

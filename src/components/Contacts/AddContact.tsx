@@ -18,7 +18,7 @@ export function AddContact({ isOpen, onClose, onCreated }: AddContactProps) {
             const token = localStorage.getItem('token');
 
             await axios.post(
-                'http://localhost:3000/api/contacts',
+                `${import.meta.env['VITE_API_URL']}/api/contacts`,
                 {
                     name,
                     phone,
