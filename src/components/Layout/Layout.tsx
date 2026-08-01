@@ -84,7 +84,7 @@ export function Layout() {
             }
 
             const response = await axios.post(
-                "http://localhost:3000/api/chats",
+                `${import.meta.env['VITE_API_URL']}/api/chats`,
                 {
                     userId: contact.id,
                 },
