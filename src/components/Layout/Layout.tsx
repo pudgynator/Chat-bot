@@ -37,7 +37,7 @@ export function Layout() {
             const token = localStorage.getItem('token');
 
             const response = await axios.get(
-                'http://localhost:3000/api/contacts',
+                `${import.meta.env['VITE_API_URL']}/api/contacts`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
