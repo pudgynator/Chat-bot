@@ -33,7 +33,7 @@ export function Chat({ chat, onBack }: ChatComponentProps) {
                 const token = localStorage.getItem('token');
 
                 const response = await axios.get(
-                    `${import.meta.env['VITE_API_URL']}/api/${chat.id}`,
+                    `${import.meta.env['VITE_API_URL']}/api/messages/${chat.id}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`
@@ -43,7 +43,7 @@ export function Chat({ chat, onBack }: ChatComponentProps) {
 
                 setMessages(response.data);
             } catch (error) {
-                console.error(error)
+                console.error('Failed to fetch messages:', error)
             }
         };
         void fetchMessages();
