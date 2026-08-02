@@ -4,6 +4,12 @@ A full-stack real-time chat application inspired by modern messaging platforms. 
 
 ---
 
+# Link 
+
+https://chat-bot-pudge.vercel.app/
+
+---
+
 ## Features
 
 ### Authentication
@@ -22,8 +28,10 @@ A full-stack real-time chat application inspired by modern messaging platforms. 
 - View all existing chats
 - Create a new chat by selecting a contact
 - Automatically open an existing conversation if one already exists
-- Search chats by name
+- Quick filtering of conversations by name
 - Responsive chat navigation
+- Instant message delivery
+- Formatted relative timestamps using date-fns
 
 ### Profile
 - View profile information
@@ -48,6 +56,7 @@ A full-stack real-time chat application inspired by modern messaging platforms. 
 - Axios
 - React Router
 - date-fns
+- Axios
 
 ---
 
@@ -56,7 +65,7 @@ A full-stack real-time chat application inspired by modern messaging platforms. 
 ### Clone repository
 
 ```bash
-git clone https://github.com/pudgynator/Chat-bot
+git clone https://github.com/pudgynator/Chat-bot.git
 ```
 ---
 
@@ -69,8 +78,18 @@ npm install
 
 ---
 
+## Environment Variables
+
+### Create a `.env` file inside the **client** directory with the following content:
+
+```env
+VITE_API_URL=https://chat-app-server-0y3c.onrender.com
+```
+
+
 ## Running the Application
 
 ```bash
 cd client
 npm run dev
+```
