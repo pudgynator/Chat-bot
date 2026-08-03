@@ -6,10 +6,12 @@ export function RegisterPage() {
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [phone, setPhone] = useState('');
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const navigate = useNavigate();
 
     const handleSumbit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setErrorMessage(null);
 
         try {
             await axios.post(`${import.meta.env['VITE_API_URL']}/api/register`, {
@@ -19,7 +21,17 @@ export function RegisterPage() {
             })
             navigate('/login');
         } catch (error) {
-            console.error(error);
+            if (axios.isAxiosError(error) && error.response) {
+                const serverMessage = error.response.data?.message;
+
+                if (serverMessage.status === 400 || error.response.status === 409) {
+                    setErrorMessage(serverMessage || 'User with this phone number already exists');
+                } else {
+                    setErrorMessage(serverMessage || 'Failed to register. Please try again.');
+                }
+            } else {
+                setErrorMessage('Network error. Please check your connection.');
+            }
         }
     }
     return (
@@ -61,6 +73,11 @@ export function RegisterPage() {
                         />
                     </div>
                     <button type='submit' className="bg-zinc-600 text-white rounded-3xl p-2 font-medium cursor-pointer">SIGN IN</button>
+                    {errorMessage && (
+                        <div className="flex items-center justify-center text-red-500 text-center font-light text-sm max-w-[70%] mx-auto">
+                            {errorMessage}
+                        </div>
+                    )}
                 </form>
                 <span className="text-zinc-400 text-sm mb-4">
                     Already have an account? {" "}

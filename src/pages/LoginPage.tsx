@@ -8,10 +8,12 @@ export function LoginPage() {
     const [password, setPassword] = useState('');
     const [phone, setPhone] = useState('');
     const navigate = useNavigate();
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const handleSumbit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
         e.preventDefault();
-
+        setErrorMessage(null);
+        
         try {
             const response = await axios.post(`${import.meta.env['VITE_API_URL']}/api/login`, {
                 phone,
@@ -25,9 +27,19 @@ export function LoginPage() {
             
             navigate('/chat');
         } catch (error) {
-            console.error(error);
+            if (axios.isAxiosError(error) && error.response) {
+                const serverMessage = error.response.data?.message;
+
+                if (error.response.status === 401) {
+                    setErrorMessage(serverMessage || 'Invalid phone number or password');
+                } else {
+                    setErrorMessage(serverMessage || 'Something went wrong. Please try again');
+                }
+            } else {
+                setErrorMessage('Network error. Please check your connection.');
+            }
         }
-    }
+    };
     return (
         <div className="flex relative p-0 md:p-2 h-screen w-screen overflow-hidden 
             justify-center
@@ -61,6 +73,11 @@ export function LoginPage() {
                         />
                     </div>
                     <button type='submit' className="bg-zinc-600 text-white rounded-3xl p-2 font-medium cursor-pointer">LOG IN</button>
+                    {errorMessage && (
+                        <div className="flex items-center justify-center text-red-500 text-center font-light text-sm max-w-[70%] mx-auto">
+                            {errorMessage}
+                        </div>
+                    )}
                 </form>
                 <span className="text-zinc-400 text-sm mb-4">
                     Don't have an account? {" "}

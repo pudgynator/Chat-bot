@@ -25,7 +25,7 @@ export function MessageItem({ message, currentUserId }: MessageItemProps) {
     return (
         <div 
             key={message.id}
-            className={`flex gap-3 py-2 px-3 w-max rounded-3xl max-w-[50%] w-fit break-words
+            className={`flex gap-3 py-2 px-3 w-max rounded-3xl max-w-[50%] min-w-0 w-fit break-all
                 ${isOwn 
                     ? 'self-end ml-auto bg-white' 
                     : 'self-start mr-auto bg-zinc-200'}
