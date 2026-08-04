@@ -18,7 +18,7 @@ export function NewGroup({ contacts, onClose }: NewGroupProps) {
     };
 
     return (
-        <div className="flex flex-col h-full p-4">
+        <div className="flex flex-col z-30 h-full p-4">
             <div className="flex items-center justify-between mb-4">
                 <button 
                     onClick={onClose}

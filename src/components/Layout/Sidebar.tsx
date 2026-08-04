@@ -62,7 +62,7 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
     const showIcon = activeTab !== "settings" && !newGroup;
 
     return (
-        <aside className={`relative flex flex-col h-full w-full bg-white px-0.5 flex-shrink-0
+        <aside className={`relative flex flex-col z-20 h-full w-full bg-white px-0.5 flex-shrink-0
             md:rounded-2xl md:translate-x-0 md:w-[350px] md:min-w-[300px] md:static
             transition-transform duration-300 ease-in-out
             ${selectedChat ? "-translate-x-full" : "translate-x-0"}
