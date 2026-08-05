@@ -9,7 +9,7 @@ export function Settings({ onEdit }: SettingsProps) {
     const user = storedUser ? JSON.parse(storedUser) : null;
 
     return(
-        <div className="px-4 flex flex-col h-full">
+        <div className="px-2 flex flex-col h-full">
             <div className="relative flex gap-2 bg-zinc-100 rounded-2xl px-3 py-4">
                 <img
                     src='/images/default-ava.jpg'
