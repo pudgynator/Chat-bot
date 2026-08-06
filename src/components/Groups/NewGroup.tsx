@@ -1,20 +1,38 @@
 import { formatDistanceToNow } from "date-fns";
 import ArrowPrev from "../../assets/ArrowPrev";
 import type { ContactProps } from "../../types/Contact"
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { filterUsers } from "../../utils/filter";
 
 type NewGroupProps = {
     contacts: ContactProps[];
     onClose: () => void;
+    onNext: (selectedIds: string[]) => void;
 }
-export function NewGroup({ contacts, onClose }: NewGroupProps) {
+export function NewGroup({ contacts, onClose, onNext }: NewGroupProps) {
     const [selectedContacts, setSelectedContacts] = useState<string[]>([]);
+    const [searchQuery, setSearchQuery] = useState('');
+
+    const selectedContactsList = useMemo(() => {
+        return contacts.filter((contact) =>  selectedContacts.includes(contact.id));
+    }, [contacts, selectedContacts]);
+
+    const filteredContacts = useMemo(() => {
+        return filterUsers(contacts, searchQuery);
+    }, [contacts, searchQuery])
+
     const toggleContact = (id: string) => {
         setSelectedContacts(prev => 
             prev.includes(id) 
                 ? prev.filter(contactId => contactId !== id)
                 : [...prev, id]
         );
+    };
+
+    const handleNext = () => {
+        if (onNext && selectedContacts.length > 0) {
+            onNext(selectedContacts);
+        }
     };
 
     return (
@@ -26,28 +44,63 @@ export function NewGroup({ contacts, onClose }: NewGroupProps) {
                 >
                     <ArrowPrev className="w-5 h-5 font-sm " fill="#black"/>
                 </button>
-                <p className="text-sm text-zinc-900">Select Users</p>
-                <button className="p-2 rounded-full text-zinc-900 bg-zinc-100 shadow-lg">
+                <div className="flex items-center gap-1.5">
+                    <span className="text-sm  text-zinc-900">Select Users</span>
+                    <span className="text-xs text-zinc-400">
+                        {selectedContacts.length}/200 000
+                    </span>
+                </div>
+                <button 
+                    onClick={handleNext}
+                    disabled={selectedContacts.length === 0}
+                    className="p-2 rounded-full text-sm text-zinc-900 bg-zinc-100 shadow-lg"
+                >
                     Next
                 </button>
             </div>
 
-            <div className="flex flex-col bg-zinc-100 h-full rounded-2xl overflow-hidden">
-                <div className="p-2 w-full"> 
-                    <input 
-                        type="text" 
-                        placeholder="Who would you like to add?"
-                        className="text-sm bg-white text-zinc-400 rounded-xl py-1 px-2 mb-2 w-full outline-none"
-                    />
+            <div className="flex flex-col bg-zinc-100 rounded-2xl overflow-hidden">
+                <div className="p-2 w-full shrink-0"> 
+                    <div className="flex flex-wrap py-1 px-3 items-center gap-1 bg-white rounded-2xl focus-within:border-zinc-300 transition">
+                        {selectedContactsList.map((contact) => (
+                            <span 
+                                key={contact.id}
+                                className="inline-flex items-center gap-1 bg-zinc-600 text-white text-xs font-medium px-2 py-1 rounded-md animate-in fade-in zoom-in-95 duration-150"
+                            >
+                                {contact.name}
+                                <button
+                                    type="button"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        toggleContact(contact.id);
+                                    }}
+                                    className="hover:bg-zinc-700 rounded-full p-0.5 transition"
+                                >
+                                    <svg className="w-3 h-3 text-white" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                                    </svg>
+                                </button>
+                            </span>
+                        ))}
+                        <input 
+                            type="text" 
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            placeholder={selectedContacts.length === 0 ? "Who would you like to add?" : ""}
+                            className="flex-1 text-sm bg-white text-zinc-400 rounded-xl outline-none"
+                        />
+                    </div>
+
                 </div>
                 <div className="text-xs text-zinc-400 px-4 uppercase w-full bg-zinc-200 border-y border-zinc-200  ">
                     contacts
                 </div>
                 <div className="flex flex-col py-2 px-2 overflow-auto h-full">
-                    {contacts.map(contact => {
+                    {filteredContacts.map(contact => {
                         const isSelected = selectedContacts.includes(contact.id)
                         return (
                             <div
+                                onClick={() => toggleContact(contact.id)}
                                 className="flex items-center gap-2  border-b border-zinc-200 py-1"
                                 key={contact.id}
                             >
