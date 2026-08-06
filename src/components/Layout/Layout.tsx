@@ -78,6 +78,7 @@ export function Layout() {
                     ...isExist,
                     id: isExist._id || isExist.id,
                     name: isExist.name || contact.name,
+                    lastSeen: isExist.lastSeen || contact.lastSeen,
                 });
                 setActiveTab('chats');
                 return;
@@ -100,6 +101,7 @@ export function Layout() {
                 id: response.data._id || response.data.id,
                 _id: response.data._id || response.data.id,
                 name: contact.name,
+                lastSeen: contact.lastSeen,
             };
 
             await fetchChats();
