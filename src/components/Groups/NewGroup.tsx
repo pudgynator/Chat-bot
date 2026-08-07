@@ -101,7 +101,7 @@ export function NewGroup({ contacts, onClose, onNext }: NewGroupProps) {
                         return (
                             <div
                                 onClick={() => toggleContact(contact.id)}
-                                className="flex items-center gap-2  border-b border-zinc-200 py-1"
+                                className="flex items-center gap-2 border-b border-zinc-200 py-1"
                                 key={contact.id}
                             >
                                 <img 
@@ -110,7 +110,7 @@ export function NewGroup({ contacts, onClose, onNext }: NewGroupProps) {
                                     className="rounded-full w-9 h-9 border-b border-zinc-400"
                                 />
                                 <div className="flex flex-col gap-1">
-                                    <span className="text-sm leading-none">{contact.name}</span>
+                                    <span className="text-sm leading-none font-medium truncate">{contact.name}</span>
                                     <span className="text-zinc-400 text-xs leading-none">
                                          Last seen{" "}
                                         { 
