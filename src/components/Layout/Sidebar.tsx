@@ -13,6 +13,7 @@ import { Edit } from "../Settings/Edit";
 import { NewGroup } from "../Groups/NewGroup";
 import { sidebarTabs } from "../../constants/sidebarTabs";
 import { filterUsers } from "../../utils/filter";
+import { NewGroupDetails } from "../Groups/NewGroupDetails";
 
 type SidebarProps = {
     onSelect: (chat: ChatProps) => void;
@@ -24,14 +25,18 @@ type SidebarProps = {
     onStartChat: (contact: ContactProps) => void;
     onContactCreated: () => Promise<void>;
     selectedContactId: string | null;
+    onCreateGroup: (groupName: string, memberIds: string[]) => Promise<boolean>;
 }
 
-export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats, contacts, onStartChat, onContactCreated, selectedContactId }: SidebarProps) {
+export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats, contacts, onStartChat, onContactCreated, selectedContactId, onCreateGroup }: SidebarProps) {
     const [search, setSearch] = useState("");
     const [menu, setMenu] = useState(false);
     const [addContact, setAddContact] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
     const [newGroup, setNewGroup] = useState(false)
+    const [groupStep, setGroupStep] = useState<1 | 2>(1);
+    const [selectedContactIds, setSelectedContactIds] = useState<string[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleMenuAction = () => {
         setMenu(false);
@@ -45,6 +50,26 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
             }, 150)
         }
     };
+
+    const handleCloseGroup = () => {
+        setNewGroup(false);
+        setGroupStep(1);
+        setSelectedContactIds([]);
+    };
+
+    const handleSubmitGroup = async (groupName: string ) => {
+        setIsLoading(true);
+        const success = await onCreateGroup(groupName, selectedContactIds);
+        setIsLoading(false);
+
+        if (success) {
+            handleCloseGroup();
+        }
+    };
+
+    const selectedContactsList = contacts.filter((contact) =>
+        selectedContactIds.includes(contact.id)
+    );
 
     const currentTab = sidebarTabs[activeTab as keyof typeof sidebarTabs];
     const title = currentTab.title;
@@ -116,7 +141,23 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
                                 : 'translate-x-full opacity-0 pointer-events-none'
                         }`}
                     >
-                        <NewGroup contacts={contacts} onClose={() => setNewGroup(false)} /> 
+                        {groupStep === 1 ? (
+                            <NewGroup 
+                                contacts={contacts} 
+                                onClose={handleCloseGroup} 
+                                onNext={(selectedContactIds) => {
+                                    setSelectedContactIds(selectedContactIds);
+                                    setGroupStep(2);
+                                }}
+                            /> 
+                        ) : (
+                            <NewGroupDetails
+                                selectedContacts={selectedContactsList}
+                                onBack={() => setGroupStep(1)}
+                                onCreateGroup={handleSubmitGroup}
+                                isLoading={isLoading}
+                            />
+                        )}
                     </div>
                 </div>
                 ) : activeTab === 'contacts' ?  <Contacts contacts={filteredContacts} onStartChat={onStartChat} selectedContactId={selectedContactId}/> 

@@ -115,6 +115,32 @@ export function Layout() {
         }
     }
 
+    const handleCreateGroup = async (groupName: string, memberIds: string[]): Promise<boolean> => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.post(
+                `${import.meta.env['VITE_API_URL']}/api/chats/group`,
+                { 
+                    name: groupName, 
+                    members: memberIds,
+                },
+                { 
+                    headers: { 
+                        Authorization: `Bearer ${token}` 
+                    } ,
+                }
+            );
+            const newGroup = response.data;
+            setChats((prev) => [newGroup, ...prev]);
+            setSelectedChat(newGroup);
+            setActiveTab("chats");
+            return true;
+        } catch (error) {
+            console.error("Failed to create group:", error);
+            return false;
+        }
+    }  
+
     return (
         
         <div className="flex relative p-0 md:p-2 h-screen w-screen overflow-hidden bg-[url('/images/bg-image.jpg')] bg-cover bg-center bg-no-repeat" > 
@@ -128,6 +154,7 @@ export function Layout() {
                 onStartChat={handleStartChat}
                 onContactCreated={fetchContacts}
                 selectedContactId={selectedContactId}
+                onCreateGroup={handleCreateGroup}
             />
             
             <MainContent 
