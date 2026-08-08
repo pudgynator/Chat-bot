@@ -50,16 +50,16 @@ export function NewGroupDetails({onBack, selectedContacts, onCreateGroup,  isLoa
                     placeholder="Group Name"
                     value={groupName}
                     onChange={(e) => (setGroupName(e.target.value))}
-                    className="outline-none border-none p-1 bg-trasparent placeholder:text-zinc-400"
+                    className="font-light outline-none border-none p-1 bg-trasparent placeholder:text-zinc-400"
                     type="text" 
                     autoFocus
                 />
             </div>
 
             <div className="flex flex-col justify-center rounded-2xl bg-zinc-100 overflow-y-auto px-3 py-2">
-                <div className="flex gap-2 items-center px-1">
-                    <img className="w-7 h-7" src="/images/new-contact.svg" alt="" />
-                    <div className="border-b border-zinc-200 text-zinc-900 py-1">
+                <div className="flex gap-2 items-center px-1 border-b border-zinc-200">
+                    <img className="w-6 h-6" src="/images/new-contact.svg" alt="" />
+                    <div className="font-light text-zinc-900 py-1">
                         Add Members
                     </div>
                 </div>
@@ -71,7 +71,7 @@ export function NewGroupDetails({onBack, selectedContacts, onCreateGroup,  isLoa
                         <img
                             src={contact.avatar ?? "/images/default-ava.jpg"}
                             alt={contact.name}
-                            className="w-10 h-10 rounded-full object-cover border border-zinc-300 shrink-0"
+                            className="w-9 h-9 rounded-full object-cover border border-zinc-300 shrink-0"
                         />
                         <div className="flex flex-col gap-1 items-start">
                             <span className="text-sm leading-none font-medium truncate">

@@ -4,11 +4,22 @@ import { formatDistanceToNow } from "date-fns";
 
 export type ChatHeaderProps = {
     chat: ChatProps;
+    currentUserId: string;
     onBack: () => void;
 };
 
-export function ChatHeader({ chat, onBack }: ChatHeaderProps) {
+export function ChatHeader({ chat, currentUserId,  onBack }: ChatHeaderProps) {
     console.log(chat);
+    const isGroup = chat.isGroup;
+
+    const member = !isGroup
+    ? chat.members?.find((m) => {
+          if (typeof m === "string") return m !== currentUserId;
+          return (m.id ?? m._id) !== currentUserId;
+      })
+    : null;
+
+
     const renderLastSeen = () => {
         if (!chat.lastSeen) return 'Last seen recently';
         try {

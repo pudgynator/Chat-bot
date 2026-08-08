@@ -14,6 +14,10 @@ export function ChatItem({ chat, onSelect, selectedChat, currentUserId }: ChatIt
         currentUserId &&
         String(chat.lastMessageSender) === String(currentUserId)
     );
+    const isGroup = chat.isGroup;
+
+    const member = !isGroup ? chat.members!.find((m) => m.id !== currentUserId) : null;
+    const title = isGroup ? chat.name : member?.name ?? "Unknown";
     const formattedTime = formatTime(chat.updatedAt);
     return (
         <button
