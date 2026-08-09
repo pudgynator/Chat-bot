@@ -2,14 +2,16 @@ import { ChatItem } from "./ChatItem";
 import { type ChatProps } from '../types/Chats'
 import { jwtDecode  } from "jwt-decode";
 import type { JwtPayload } from "../Chat/Chat";
+import type { ContactProps } from "../types/Contact";
 
 type ChatListProps = {
     onSelect: (chatID: ChatProps) => void;
     selectedChat: ChatProps | null;
     filteredChats: ChatProps[];
+    contacts: ContactProps[];
 }
 
-export function ChatList({ onSelect, selectedChat, filteredChats  }: ChatListProps) {
+export function ChatList({ onSelect, selectedChat, filteredChats, contacts }: ChatListProps) {
     const token = localStorage.getItem('token')
     const currentUserId =  token ? jwtDecode<JwtPayload>(token).userId : "";
     return (
@@ -21,6 +23,7 @@ export function ChatList({ onSelect, selectedChat, filteredChats  }: ChatListPro
                         selectedChat={selectedChat}
                         key={chat.id}
                         chat={chat}
+                        contacts={contacts}
                     />
                 )
             )}

@@ -1,4 +1,5 @@
 import type { ChatProps } from "../types/Chats"; 
+import type { ContactProps } from "../types/Contact";
 import { formatTime } from "../utils/formatTime";
 
 export type ChatItemProps = {
@@ -6,25 +7,38 @@ export type ChatItemProps = {
     onSelect: (chat: ChatProps) => void;
     selectedChat: ChatProps | null;
     currentUserId: string;
+    contacts: ContactProps[];
 }
 
-export function ChatItem({ chat, onSelect, selectedChat, currentUserId }: ChatItemProps) {
+export function ChatItem({ chat, onSelect, selectedChat, currentUserId, contacts }: ChatItemProps) {
     const isMyLastMessage = Boolean(
         chat.lastMessageSender &&
         currentUserId &&
         String(chat.lastMessageSender) === String(currentUserId)
     );
-    const isGroup = chat.isGroup;
 
-    const member = !isGroup ? chat.members!.find((m) => m.id !== currentUserId) : null;
-    const title = isGroup ? chat.name : member?.name ?? "Unknown";
+    const isGroup = Boolean(chat.isGroup || (chat.name && chat.name.trim() !== ""));
+    const memberObj = !isGroup 
+        ? (chat.members || []).find((m) =>{
+            const mId = typeof m === "string" ? m : (m.id ?? m._id);
+            return String(mId) !== String(currentUserId);
+        })
+        : null;
+
+    const memberId = typeof memberObj === 'object' ? (memberObj?.id ?? memberObj?._id) : memberObj;
+    const savedContact = (contacts || []).find((c) => {
+        const cId = c.id;
+        return String(cId) === String(memberId);
+    })
+
+    const title = isGroup ? chat.name : savedContact?.name || (typeof memberObj === "object" ? memberObj?.name : "Unknown");
     const formattedTime = formatTime(chat.updatedAt);
     return (
         <button
             onClick={() => onSelect(chat)}
             className={`
                 flex items-center gap-2 w-full px-2 py-2 focus:outline-none text-left
-                ${selectedChat === chat 
+                ${selectedChat === chat  
                     ? 'bg-[#454545] rounded-2xl text-white' 
                     : 'bg-white border-b border-zinc-100'
                 }
@@ -40,7 +54,7 @@ export function ChatItem({ chat, onSelect, selectedChat, currentUserId }: ChatIt
                 <span className={`font-medium text-sm
                     ${selectedChat === chat ? 'text-white' : 'text-zinc-900'}`}
                 >
-                    {chat.name}
+                    {title}
                 </span>
                     
                 <p className={`flex flex-col text-sm truncate font-light

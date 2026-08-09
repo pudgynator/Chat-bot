@@ -1,32 +1,48 @@
 import type { ChatProps } from "../types/Chats";
 import ArrowPrev  from "../assets/ArrowPrev";
 import { formatDistanceToNow } from "date-fns";
+import type { ContactProps } from "../types/Contact";
 
 export type ChatHeaderProps = {
     chat: ChatProps;
     currentUserId: string;
     onBack: () => void;
+    contacts: ContactProps[];
 };
 
-export function ChatHeader({ chat, currentUserId,  onBack }: ChatHeaderProps) {
+export function ChatHeader({ chat, currentUserId,  onBack, contacts }: ChatHeaderProps) {
     console.log(chat);
-    const isGroup = chat.isGroup;
 
-    const member = !isGroup
-    ? chat.members?.find((m) => {
-          if (typeof m === "string") return m !== currentUserId;
-          return (m.id ?? m._id) !== currentUserId;
-      })
-    : null;
+    const isGroup = chat.isGroup === true || (chat.isGroup === undefined && (chat.members?.length || 0) > 2);
+    const memberObj = !isGroup 
+        ? (chat.members || []).find((m) =>{
+            const mId = typeof m === "string" ? m : (m.id ?? m._id);
+            return String(mId) !== String(currentUserId);
+        })
+        : null;
 
+    const memberId = typeof memberObj === 'object' ? (memberObj?.id ?? memberObj?._id) : memberObj;
+    const savedContact = (contacts || []).find((c) => {
+        const cId = c.id;
+        return String(cId) === String(memberId);
+    })
 
-    const renderLastSeen = () => {
-        if (!chat.lastSeen) return 'Last seen recently';
+    const title = isGroup 
+        ? chat.name 
+        : savedContact?.name || (typeof memberObj === "object" ? memberObj?.name : "Unknown");
+
+    const renderLastSeen = () => {  
+        if (isGroup) {
+            const count = chat.members?.length || 0;
+            return `${count} ${count === 1 ? 'member' : 'members'}`
+        }
+        const lastSeenValue = typeof memberObj === "object" ? memberObj?.lastSeen : chat.lastSeen;
+        if (!lastSeenValue) return "Last seen recently";
         try {
             return (
                 <>
                     Last seen{" "}
-                    {formatDistanceToNow(new Date(chat.lastSeen), {
+                    {formatDistanceToNow(new Date(lastSeenValue), {
                         addSuffix: true,
                     })}
                 </>
@@ -51,7 +67,7 @@ export function ChatHeader({ chat, currentUserId,  onBack }: ChatHeaderProps) {
                         className=" rounded-full w-8 h-8 "
                 />
                 <button className="flex flex-col items-start gap-1">
-                    <span className="text-sm leading-none">{chat.name}</span>
+                    <span className="text-sm leading-none">{title}</span>
                     <span className="text-xs leading-none text-zinc-500">
                         {renderLastSeen()}
                     </span>
