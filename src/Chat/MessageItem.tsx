@@ -33,7 +33,7 @@ export function MessageItem({ message, currentUserId }: MessageItemProps) {
         >
             <span className="mb-0.5">{message.text}</span>
             <span
-                className={`text-xs self-end
+                className={`text-xs self-end whitespace-nowrap shrink-0
                     ${isOwn ? 'text-zinc-300' : 'text-zinc-400'}
                 `}
             >
