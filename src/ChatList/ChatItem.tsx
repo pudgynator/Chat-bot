@@ -27,11 +27,12 @@ export function ChatItem({ chat, onSelect, selectedChat, currentUserId, contacts
 
     const memberId = typeof memberObj === 'object' ? (memberObj?.id ?? memberObj?._id) : memberObj;
     const savedContact = (contacts || []).find((c) => {
-        const cId = c.id;
-        return String(cId) === String(memberId);
+        return String(c.id) === String(memberId);
     })
 
-    const title = isGroup ? chat.name : savedContact?.name || (typeof memberObj === "object" ? memberObj?.name : "Unknown");
+    const title = isGroup 
+        ? chat.name 
+        : savedContact?.name || (typeof memberObj === "object" ? memberObj?.name : "Unknown");
     const formattedTime = formatTime(chat.updatedAt);
     return (
         <button
@@ -45,7 +46,7 @@ export function ChatItem({ chat, onSelect, selectedChat, currentUserId, contacts
             `}
         >
             <img
-                src={chat.avatar ?? '/images/default-ava.jpg'} 
+                src={chat.avatar || '/images/default-ava.jpg'} 
                 alt="User avatar" 
                 className=" rounded-full w-13 h-13"
             />

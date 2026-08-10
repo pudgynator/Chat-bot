@@ -13,23 +13,22 @@ export type ChatHeaderProps = {
 export function ChatHeader({ chat, currentUserId,  onBack, contacts }: ChatHeaderProps) {
     console.log(chat);
 
-    const isGroup = chat.isGroup === true || (chat.isGroup === undefined && (chat.members?.length || 0) > 2);
-    const memberObj = !isGroup 
-        ? (chat.members || []).find((m) =>{
-            const mId = typeof m === "string" ? m : (m.id ?? m._id);
-            return String(mId) !== String(currentUserId);
-        })
-        : null;
+    const isGroup = chat.isGroup === true || (chat.isGroup === undefined && chat.members!.length > 2);
+    const memberObj = !isGroup
+    ? (chat.members || []).find((m) => {
+          const mId = String(typeof m === "object" ? (m?._id ?? m?.id) : m);
+          return currentUserId && mId && mId !== currentUserId;
+      })
+    : null;
 
     const memberId = typeof memberObj === 'object' ? (memberObj?.id ?? memberObj?._id) : memberObj;
     const savedContact = (contacts || []).find((c) => {
-        const cId = c.id;
-        return String(cId) === String(memberId);
-    })
+        return String(c.id) === String(memberId);
+    });
 
     const title = isGroup 
-        ? chat.name 
-        : savedContact?.name || (typeof memberObj === "object" ? memberObj?.name : "Unknown");
+        ? (chat.name || "Group") 
+        : savedContact?.name || (typeof memberObj === "object" ? memberObj?.name : chat.name);
 
     const renderLastSeen = () => {  
         if (isGroup) {
@@ -62,7 +61,7 @@ export function ChatHeader({ chat, currentUserId,  onBack, contacts }: ChatHeade
 
             <div className="flex items-center gap-2 px-1 py-1 bg-white/70 backdrop-blur-md border border-white/30 shadow-sm w-full rounded-full ">
                 <img
-                        src={ chat.avatar ?? '/images/default-ava.jpg'} 
+                        src={ chat.avatar || '/images/default-ava.jpg'} 
                         alt="User avatar" 
                         className=" rounded-full w-8 h-8 "
                 />
