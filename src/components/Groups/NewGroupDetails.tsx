@@ -13,9 +13,9 @@ type NewGroupDetails = {
 export function NewGroupDetails({onBack, selectedContacts, onCreateGroup,  isLoading = false}: NewGroupDetails) {
     const [groupName, setGroupName] = useState('');
 
-    const handleCreate = () => {
+    const handleCreate = async () => {
         if (!groupName.trim()) return;
-        onCreateGroup(groupName.trim());
+        await onCreateGroup(groupName.trim());
     };
     return (
         <div className="flex flex-col z-30 h-full p-4">
@@ -49,7 +49,7 @@ export function NewGroupDetails({onBack, selectedContacts, onCreateGroup,  isLoa
                 <input 
                     placeholder="Group Name"
                     value={groupName}
-                    onChange={(e) => (setGroupName(e.target.value))}
+                    onChange={(e) => setGroupName(e.target.value)}
                     className="font-light outline-none border-none p-1 bg-trasparent placeholder:text-zinc-400"
                     type="text" 
                     autoFocus

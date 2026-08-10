@@ -58,8 +58,9 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
     };
 
     const handleSubmitGroup = async (groupName: string ) => {
+        if (!groupName.trim()) return;
         setIsLoading(true);
-        const success = await onCreateGroup(groupName, selectedContactIds);
+       const success = await onCreateGroup(groupName.trim(), selectedContactIds);
         setIsLoading(false);
 
         if (success) {
@@ -133,7 +134,7 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
                                 : 'translate-x-0 opacity-100'
                             }`}
                     >
-                        <ChatList  filteredChats={filteredChats} onSelect={onSelect} selectedChat={selectedChat}/>
+                        <ChatList  filteredChats={filteredChats} onSelect={onSelect} selectedChat={selectedChat} contacts={contacts}/>
                     </div>
                     <div className={`absoulte transition-all ease-in-out duration-300
                         ${ newGroup 
@@ -154,7 +155,7 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
                             <NewGroupDetails
                                 selectedContacts={selectedContactsList}
                                 onBack={() => setGroupStep(1)}
-                                onCreateGroup={handleSubmitGroup}
+                                onCreateGroup={(groupName) => handleSubmitGroup(groupName)}
                                 isLoading={isLoading}
                             />
                         )}

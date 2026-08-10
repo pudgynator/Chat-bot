@@ -10,19 +10,19 @@ type NewGroupProps = {
     onNext: (selectedIds: string[]) => void;
 }
 export function NewGroup({ contacts, onClose, onNext }: NewGroupProps) {
-    const [selectedContacts, setSelectedContacts] = useState<string[]>([]);
+    const [selectedContactsIds, setSelectedContactsIds] = useState<string[]>([]);
     const [searchQuery, setSearchQuery] = useState('');
 
     const selectedContactsList = useMemo(() => {
-        return contacts.filter((contact) =>  selectedContacts.includes(contact.id));
-    }, [contacts, selectedContacts]);
+        return contacts.filter((contact) =>  selectedContactsIds.includes(contact.id));
+    }, [contacts, selectedContactsIds]);
 
     const filteredContacts = useMemo(() => {
         return filterUsers(contacts, searchQuery);
     }, [contacts, searchQuery])
 
     const toggleContact = (id: string) => {
-        setSelectedContacts(prev => 
+        setSelectedContactsIds(prev => 
             prev.includes(id) 
                 ? prev.filter(contactId => contactId !== id)
                 : [...prev, id]
@@ -30,8 +30,8 @@ export function NewGroup({ contacts, onClose, onNext }: NewGroupProps) {
     };
 
     const handleNext = () => {
-        if (onNext && selectedContacts.length > 0) {
-            onNext(selectedContacts);
+        if (onNext && selectedContactsIds.length > 0) {
+            onNext(selectedContactsIds);
         }
     };
 
@@ -47,12 +47,12 @@ export function NewGroup({ contacts, onClose, onNext }: NewGroupProps) {
                 <div className="flex items-center gap-1.5">
                     <span className="text-sm  text-zinc-900">Select Users</span>
                     <span className="text-xs text-zinc-400">
-                        {selectedContacts.length}/200 000
+                        {selectedContactsIds.length}/200 000
                     </span>
                 </div>
                 <button 
                     onClick={handleNext}
-                    disabled={selectedContacts.length === 0}
+                    disabled={selectedContactsIds.length === 0}
                     className="p-2 rounded-full text-sm text-zinc-900 bg-zinc-100 shadow-lg"
                 >
                     Next
@@ -86,7 +86,7 @@ export function NewGroup({ contacts, onClose, onNext }: NewGroupProps) {
                             type="text" 
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            placeholder={selectedContacts.length === 0 ? "Who would you like to add?" : ""}
+                            placeholder={selectedContactsIds.length === 0 ? "Who would you like to add?" : ""}
                             className="flex-1 text-sm bg-white text-zinc-400 rounded-xl outline-none"
                         />
                     </div>
@@ -97,7 +97,7 @@ export function NewGroup({ contacts, onClose, onNext }: NewGroupProps) {
                 </div>
                 <div className="flex flex-col py-2 px-2 overflow-auto h-full">
                     {filteredContacts.map(contact => {
-                        const isSelected = selectedContacts.includes(contact.id)
+                        const isSelected = selectedContactsIds.includes(contact.id)
                         return (
                             <div
                                 onClick={() => toggleContact(contact.id)}
