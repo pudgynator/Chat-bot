@@ -15,7 +15,7 @@ export function ChatList({ onSelect, selectedChat, filteredChats, contacts }: Ch
     const token = localStorage.getItem('token')
     const currentUserId =  token ? jwtDecode<JwtPayload>(token).userId : "";
     return (
-        <div className="flex flex-1 flex-col px-1">
+        <div className="flex flex-1 flex-col px-1 overflow-y-auto">
             {filteredChats.map(chat => (
                     <ChatItem
                         currentUserId={currentUserId}

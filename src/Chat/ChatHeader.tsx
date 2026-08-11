@@ -8,9 +8,10 @@ export type ChatHeaderProps = {
     currentUserId: string;
     onBack: () => void;
     contacts: ContactProps[];
+    onOpenProfile: () => void;
 };
 
-export function ChatHeader({ chat, currentUserId,  onBack, contacts }: ChatHeaderProps) {
+export function ChatHeader({ chat, currentUserId,  onBack, contacts, onOpenProfile }: ChatHeaderProps) {
     console.log(chat);
 
     const isGroup = chat.isGroup === true || (chat.isGroup === undefined && chat.members!.length > 2);
@@ -59,7 +60,7 @@ export function ChatHeader({ chat, currentUserId,  onBack, contacts }: ChatHeade
                 <ArrowPrev className="w-8 h-8 font-sm"/>
             </button>
 
-            <div className="flex items-center gap-2 px-1 py-1 bg-white/70 backdrop-blur-md border border-white/30 shadow-sm w-full rounded-full ">
+            <div onClick={onOpenProfile} className="flex items-center gap-2 px-1 py-1 bg-white/70 backdrop-blur-md border border-white/30 shadow-sm w-full rounded-full ">
                 <img
                         src={ chat.avatar || '/images/default-ava.jpg'} 
                         alt="User avatar" 
