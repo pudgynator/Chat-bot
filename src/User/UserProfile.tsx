@@ -28,7 +28,7 @@ export function UserProfile({ chat, currentUserId, contacts, onClose }: UserProf
         ? (chat.name || "Group") 
         : savedContact?.name || (typeof memberObj === "object" ? memberObj?.name : chat.name);
 
-    const phone = !isGroup ? chat?.phone : null;
+    const phone = !isGroup ? savedContact?.phone : null;
 
     const renderLastSeen = () => {  
         if (isGroup) {
