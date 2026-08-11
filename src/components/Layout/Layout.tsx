@@ -158,6 +158,7 @@ export function Layout() {
             />
             
             <MainContent 
+                contacts={contacts}
                 selectedChat={selectedChat} 
                 onBack={() => setSelectedChat(null)}
             />
