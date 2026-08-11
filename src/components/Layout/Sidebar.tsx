@@ -90,7 +90,7 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
     return (
         <aside className={`relative flex flex-col z-20 h-full w-full bg-white px-0.5 flex-shrink-0
             md:rounded-2xl md:translate-x-0 md:w-[350px] md:min-w-[300px] md:static
-            transition-transform duration-300 ease-in-out
+            transition-transform duration-300 ease-in-out overflow-hidden
             ${selectedChat ? "-translate-x-full" : "translate-x-0"}
              
         `}>
@@ -127,7 +127,7 @@ export function Sidebar({ onSelect, selectedChat, activeTab, onTabChange, chats,
             </div>
             { !hideSearch && <SearchBar onSearch={setSearch} activeTab={activeTab} /> }
             {activeTab === 'chats' ? ( 
-                <div className="relative flex-1 overflow-hidden">
+                <div className="relative flex-1 overflow-y-auto overflow-x-hidden">
                     <div className={`absolute inset-0 transition-all ease-in-out duration-300
                             ${newGroup 
                                 ? '-translate-x-8 opacity-0 pointer-events-none'
