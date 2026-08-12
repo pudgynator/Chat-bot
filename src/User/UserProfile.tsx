@@ -52,7 +52,7 @@ export function UserProfile({ chat, currentUserId, contacts, onClose }: UserProf
     }
 
     return (
-        <div className="flex flex-col bg-white px-4 py-1">
+        <div className="flex flex-col bg-white px-4 md:py-1">
             <div className="flex min-w-[300px] items-center justify-between py-2 z-10">
                 <button 
                     onClick={onClose}

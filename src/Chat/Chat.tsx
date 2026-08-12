@@ -56,7 +56,7 @@ export function Chat({ chat, onBack, contacts }: ChatComponentProps) {
 
     
     return(
-        <div className="flex flex-col relative w-full h-full md:mt-0 mt-2 ">
+        <div className="rounded-2xl flex flex-col relative w-full h-full md:mt-0 mt-2">
             <ChatHeader 
                 chat={chat}
                 currentUserId={currentUserId}
@@ -74,7 +74,7 @@ export function Chat({ chat, onBack, contacts }: ChatComponentProps) {
             />
 
             {isProfileOpen && chat && (
-                <div className="absolute inset-0 z-50 bg-white rounded-2xl overflow-hidden">
+                <div className="absolute inset-0 z-50 bg-white rounded-2xl overflow-hidden mb-4 md:mb-0">
                     <UserProfile
                         chat={chat}
                         currentUserId={currentUserId}
