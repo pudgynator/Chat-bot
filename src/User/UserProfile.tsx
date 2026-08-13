@@ -88,6 +88,27 @@ export function UserProfile({ chat, currentUserId, contacts, onClose }: UserProf
                     <span className="text-zinc-900 font-light">{phone}</span>
                 </div>
             )}
+
+            { isGroup && chat.members && (
+                <div className="bg-zinc-100 rounded-3xl px-4 py-2 shadow-sm">
+                    { chat.members.map((member) => (
+                        <div
+                            key={member.id}
+                            className="flex flex-col gap-0.5 bg-zinc-100 py-2 border-b border-zinc-200"
+                        >
+                            <span className="font-medium leading-none text-sm">{member.name}</span>
+                            <span className="leading-none text-sm text-zinc-400">   
+                            {typeof member === 'object' && member?.lastSeen ? (
+                                `Last seen ${formatDistanceToNow(new Date(member.lastSeen), { addSuffix: true })}`
+                            ) : (
+                                'Last seen recently'
+                            )}
+                            </span>
+                        </div>
+                    ))
+                    }
+                </div>
+            )}
         </div>
     )
 
