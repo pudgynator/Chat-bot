@@ -94,16 +94,23 @@ export function UserProfile({ chat, currentUserId, contacts, onClose }: UserProf
                     { chat.members.map((member) => (
                         <div
                             key={member.id}
-                            className="flex flex-col gap-0.5 bg-zinc-100 py-2 border-b border-zinc-200"
+                            className="flex gap-2 bg-zinc-100 py-2 border-b border-zinc-200"
                         >
-                            <span className="font-medium leading-none text-sm">{member.name}</span>
-                            <span className="leading-none text-sm text-zinc-400">   
-                            {typeof member === 'object' && member?.lastSeen ? (
-                                `Last seen ${formatDistanceToNow(new Date(member.lastSeen), { addSuffix: true })}`
-                            ) : (
-                                'Last seen recently'
-                            )}
-                            </span>
+                            <img 
+                                src={ member?.avatar || '/images/default-ava.jpg'} 
+                                alt="User Avatr" 
+                                className="rounded-full w-9 h-9"
+                            />
+                            <div className="flex flex-col gap-0.5 justify-center">
+                                <span className="font-medium leading-none text-sm">{member.name}</span>
+                                <span className="leading-none text-sm text-zinc-400">   
+                                {typeof member === 'object' && member?.lastSeen ? (
+                                    `Last seen ${formatDistanceToNow(new Date(member.lastSeen), { addSuffix: true })}`
+                                ) : (
+                                    'Last seen recently'
+                                )}
+                                </span>
+                            </div>
                         </div>
                     ))
                     }
