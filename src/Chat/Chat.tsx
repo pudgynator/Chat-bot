@@ -73,8 +73,15 @@ export function Chat({ chat, onBack, contacts }: ChatComponentProps) {
                 onMessageSent={handleMessageSend}
             />
 
-            {isProfileOpen && chat && (
-                <div className="absolute inset-0 z-50 bg-white rounded-2xl overflow-hidden mb-4 md:mb-0">
+            {chat && (
+                <div className={`absolute inset-0 z-50 bg-white rounded-2xl overflow-hidden mb-4 md:mb-0
+                    transition-all duration-300 ease-in-out
+                    ${isProfileOpen 
+                        ? 'translate-x-0 opacity-100 pointer-events-auto'
+                        : 'translate-x-full opacity-0 pointer-events-none'
+                    }
+                `}   
+                >
                     <UserProfile
                         chat={chat}
                         currentUserId={currentUserId}
