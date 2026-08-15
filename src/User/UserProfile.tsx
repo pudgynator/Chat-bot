@@ -2,6 +2,7 @@ import { formatDistanceToNow } from "date-fns";
 import ArrowPrev from "../assets/ArrowPrev";
 import type { ChatProps } from "../types/Chats";
 import type { ContactProps } from "../types/Contact";
+import { renderLastSeen } from "../utils/renderLastSeen";
 
 type UserProfileProps = {
     chat: ChatProps;
@@ -30,26 +31,15 @@ export function UserProfile({ chat, currentUserId, contacts, onClose }: UserProf
 
     const phone = !isGroup ? savedContact?.phone : null;
 
-    const renderLastSeen = () => {  
-        if (isGroup) {
-            const count = chat.members?.length || 0;
-            return `${count} ${count === 1 ? 'member' : 'members'}`
-        }
-        const lastSeenValue = typeof memberObj === "object" ? memberObj?.lastSeen : chat.lastSeen;
-        if (!lastSeenValue) return "Last seen recently";
-        try {
-            return (
-                <>
-                    Last seen{" "}
-                    {formatDistanceToNow(new Date(lastSeenValue), {
-                        addSuffix: true,
-                    })}
-                </>
-            );
-        } catch {
-            return 'Last seen recently';
-        }
-    }
+    const lastSeenValue = !isGroup && typeof memberObj === "object" 
+        ? memberObj?.lastSeen 
+        : chat?.lastSeen;
+
+    const subtitle = renderLastSeen({
+        isGroup,
+        membersCount: chat.members?.length ?? 0,
+        lastSeen: lastSeenValue ?? null,
+    })
 
     return (
         <div className="flex flex-col bg-white px-4 md:py-1">
@@ -71,7 +61,7 @@ export function UserProfile({ chat, currentUserId, contacts, onClose }: UserProf
                 <img className="w-24 h-24 rounded-full mb-2" src="/images/default-ava.jpg" alt="User Avatar" />
                 <span className="font-medium text-sm leading-none">{title}</span>
                 <span className="font-light text-xs leading-none text-zinc-500">
-                {renderLastSeen()}
+                {subtitle}
                 </span>
             </div>
 

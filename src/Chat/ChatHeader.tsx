@@ -1,7 +1,7 @@
 import type { ChatProps } from "../types/Chats";
 import ArrowPrev  from "../assets/ArrowPrev";
-import { formatDistanceToNow } from "date-fns";
 import type { ContactProps } from "../types/Contact";
+import { renderLastSeen } from "../utils/renderLastSeen";
 
 export type ChatHeaderProps = {
     chat: ChatProps;
@@ -31,26 +31,15 @@ export function ChatHeader({ chat, currentUserId,  onBack, contacts, onOpenProfi
         ? (chat.name || "Group") 
         : savedContact?.name || (typeof memberObj === "object" ? memberObj?.name : chat.name);
 
-    const renderLastSeen = () => {  
-        if (isGroup) {
-            const count = chat.members?.length || 0;
-            return `${count} ${count === 1 ? 'member' : 'members'}`
-        }
-        const lastSeenValue = typeof memberObj === "object" ? memberObj?.lastSeen : chat.lastSeen;
-        if (!lastSeenValue) return "Last seen recently";
-        try {
-            return (
-                <>
-                    Last seen{" "}
-                    {formatDistanceToNow(new Date(lastSeenValue), {
-                        addSuffix: true,
-                    })}
-                </>
-            );
-        } catch {
-            return 'Last seen recently';
-        }
-    }
+    const lastSeenValue = !isGroup && typeof memberObj === "object" 
+        ? memberObj?.lastSeen 
+        : chat?.lastSeen;
+
+    const subtitle = renderLastSeen({
+        isGroup,
+        membersCount: chat.members?.length ?? 0,
+        lastSeen: lastSeenValue ?? null,
+    })
     return(
         <div className="flex items-center gap-3">
             <button 
@@ -69,7 +58,7 @@ export function ChatHeader({ chat, currentUserId,  onBack, contacts, onOpenProfi
                 <button className="flex flex-col items-start gap-1">
                     <span className="text-sm leading-none">{title}</span>
                     <span className="text-xs leading-none text-zinc-500">
-                        {renderLastSeen()}
+                        {subtitle}
                     </span>
                 </button>
             </div>
