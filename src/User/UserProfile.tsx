@@ -81,6 +81,7 @@ export function UserProfile({ chat, currentUserId, contacts, onClose }: UserProf
 
             { isGroup && chat.members && (
                 <div className="bg-zinc-100 rounded-3xl px-4 py-2 shadow-sm">
+                    <div className="text-xs text-zinc-400 border-b border-zinc-200 py-2">Members</div>
                     { chat.members.map((member) => (
                         <div
                             key={member.id}
