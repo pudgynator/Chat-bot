@@ -40,13 +40,13 @@ export function UserProfile({ chat, currentUserId, contacts, onClose, onChatUpda
     const lastSeenValue = !isGroup && typeof memberObj === "object" 
         ? memberObj?.lastSeen 
         : chat?.lastSeen;
-        src/User/UserProfile.tsx
+
     const subtitle = renderLastSeen({
         isGroup,
         membersCount: chat.members?.length ?? 0,
         lastSeen: lastSeenValue ?? null,
     })
-
+    
     if (isEditing) {
         return (
             <UserChatEdit
