@@ -3,15 +3,21 @@ import ArrowPrev from "../assets/ArrowPrev";
 import type { ChatProps } from "../types/Chats";
 import type { ContactProps } from "../types/Contact";
 import { renderLastSeen } from "../utils/renderLastSeen";
+import { useState } from "react";
+import { UserChatEdit } from "./UserChatEdit";
 
 type UserProfileProps = {
     chat: ChatProps;
     currentUserId: string;
     contacts: ContactProps[];
     onClose: () => void;
+    onChatUpdated?: (updatedChat: ChatProps) => void;
 }
 
-export function UserProfile({ chat, currentUserId, contacts, onClose }: UserProfileProps) {
+export function UserProfile({ chat, currentUserId, contacts, onClose, onChatUpdated }: UserProfileProps) {
+    const [isEditing, setIsEditing] = useState(false);
+    const [chatName, setChatName] = useState(chat.name || "");
+
     const isGroup = chat.isGroup === true || (chat.isGroup === undefined && chat.members!.length > 2);
     const memberObj = !isGroup
     ? (chat.members || []).find((m) => {
@@ -34,12 +40,28 @@ export function UserProfile({ chat, currentUserId, contacts, onClose }: UserProf
     const lastSeenValue = !isGroup && typeof memberObj === "object" 
         ? memberObj?.lastSeen 
         : chat?.lastSeen;
-
+        src/User/UserProfile.tsx
     const subtitle = renderLastSeen({
         isGroup,
         membersCount: chat.members?.length ?? 0,
         lastSeen: lastSeenValue ?? null,
     })
+
+    if (isEditing) {
+        return (
+            <UserChatEdit
+                onClose={() => setIsEditing(false)}
+                chatId={chat.id}
+                initialName={chatName}
+                onNameUpdated={(newName) => {
+                    setChatName(newName);
+                    if (onChatUpdated) {
+                        onChatUpdated({ ...chat, name: newName });
+                    }
+                }}
+            />
+        );
+    }
 
     return (
         <div className="flex flex-col bg-white px-4 md:py-1">
@@ -52,6 +74,7 @@ export function UserProfile({ chat, currentUserId, contacts, onClose }: UserProf
                 </button>
                 <button 
                     className="p-2 rounded-full text-zinc-900 bg-zinc-100 shadow-lg"
+                    onClick={() => setIsEditing(true)}
                 >
                     Edit
                 </button>
