@@ -25,9 +25,16 @@ export function UserChatEdit( {onClose, chatId, initialName, onNameUpdated }: Us
             setIsLoading(true);
             setError(null);
 
+            const token = localStorage.getItem('token');
+
             const response = await axios.patch(
                 `${import.meta.env['VITE_API_URL']}/api/chats/${chatId}`, {
                     name: name.trim()
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    },
                 }
             )
             const updatedName = response.data?.name || name.trim();
