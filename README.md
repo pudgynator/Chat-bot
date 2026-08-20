@@ -27,6 +27,8 @@ https://chat-bot-pudge.vercel.app/
 ### Chats
 - View all existing chats
 - Create a new chat by selecting a contact
+- Create a group chat
+- Edit name of a chat
 - Automatically open an existing conversation if one already exists
 - Quick filtering of conversations by name
 - Responsive chat navigation
