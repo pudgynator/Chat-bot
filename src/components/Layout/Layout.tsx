@@ -4,6 +4,7 @@ import { MainContent } from "./MainContent";
 import { Sidebar } from "./Sidebar";
 import { type ChatProps } from "../../types/Chats";
 import type { ContactProps } from "../../types/Contact";
+import { useNavigate } from "react-router-dom";
 
 
 export function Layout() {
@@ -13,6 +14,7 @@ export function Layout() {
     const [chats, setChats] = useState<ChatProps[]>([]);
     const [contacts, setContacts] = useState<ContactProps[]>([]);
     const [activeTab, setActiveTab] = useState("chats");
+    const navigate = useNavigate();
 
     const fetchChats = async () => {
         try {
@@ -52,6 +54,13 @@ export function Layout() {
     }
 
     useEffect(() => {
+        const token = localStorage.getItem('token');
+    
+        if (!token) {
+            navigate('/login')
+            return;
+        }
+
         const loadData = async () => {
             await Promise.all([
                 fetchChats(),
@@ -60,7 +69,7 @@ export function Layout() {
         };
     
         loadData();
-    }, [])
+    }, [navigate])
 
     const handleStartChat = async (contact: ContactProps) => {
         try {
