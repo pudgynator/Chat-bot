@@ -12,9 +12,10 @@ type UserProfileProps = {
     contacts: ContactProps[];
     onClose: () => void;
     onChatUpdated?: (updatedChat: ChatProps) => void;
+    onContactUpdated?: (savedContact: ContactProps) => void;
 }
 
-export function UserProfile({ chat, currentUserId, contacts, onClose, onChatUpdated }: UserProfileProps) {
+export function UserProfile({ chat, currentUserId, contacts, onClose, onChatUpdated, onContactUpdated }: UserProfileProps) {
     const [isEditing, setIsEditing] = useState(false);
     const [chatName, setChatName] = useState(chat.name || "");
 
@@ -32,7 +33,7 @@ export function UserProfile({ chat, currentUserId, contacts, onClose, onChatUpda
     });
 
     const title = isGroup 
-        ? (chat.name || "Group") 
+        ? (chatName || "Group") 
         : savedContact?.name || (typeof memberObj === "object" ? memberObj?.name : chat.name);
 
     const phone = !isGroup ? savedContact?.phone : null;
@@ -52,11 +53,20 @@ export function UserProfile({ chat, currentUserId, contacts, onClose, onChatUpda
             <UserChatEdit
                 onClose={() => setIsEditing(false)}
                 chatId={chat.id}
-                initialName={chatName}
-                onNameUpdated={(newName) => {
+                targetUserId={String(memberId || '')}
+                initialName={title || ''}
+                isGroup={isGroup}
+                onNameUpdated={(newName, updatedContact?) => {
                     setChatName(newName);
-                    if (onChatUpdated) {
-                        onChatUpdated({ ...chat, name: newName });
+                    if (isGroup) {
+                        if (onChatUpdated) {
+                            onChatUpdated({ ...chat, name: newName });
+                        }
+                    } else {
+                    
+                        if (onContactUpdated && updatedContact) {
+                            onContactUpdated(updatedContact);
+                        }
                     }
                 }}
             />

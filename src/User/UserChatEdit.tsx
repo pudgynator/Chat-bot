@@ -1,21 +1,24 @@
 import { useState } from "react";
 import ArrowPrev from "../assets/ArrowPrev";
 import axios from "axios";
+import type { ContactProps } from "../types/Contact";
 
 
 type UserChatEditProps = {
     onClose: () => void;
     chatId: string;
-    initialName: string;
-    onNameUpdated: (newName: string) => void;
+    targetUserId: string;
+    initialName?: string;
+    isGroup: boolean;
+    onNameUpdated: (newName: string, updatedContact?: ContactProps) => void;
 }
 
-export function UserChatEdit( {onClose, chatId, initialName, onNameUpdated }: UserChatEditProps) {
+export function UserChatEdit( {onClose, chatId, targetUserId, initialName, isGroup, onNameUpdated }: UserChatEditProps) {
     const [name, setName] = useState(initialName || '');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const isUnchanged = name.trim() === initialName.trim();
+    const isUnchanged = name.trim() === (initialName || '').trim();
     const isInvalid = name.trim().length === 0;
 
     const handleSave = async () => {
@@ -26,19 +29,39 @@ export function UserChatEdit( {onClose, chatId, initialName, onNameUpdated }: Us
             setError(null);
 
             const token = localStorage.getItem('token');
-
-            const response = await axios.patch(
-                `${import.meta.env['VITE_API_URL']}/api/chats/${chatId}`, {
-                    name: name.trim()
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`
+            if (isGroup) {
+                const response = await axios.patch(
+                    `${import.meta.env['VITE_API_URL']}/api/chats/${chatId}`, {
+                        name: name.trim()
                     },
-                }
-            )
-            const updatedName = response.data?.name || name.trim();
-            onNameUpdated(updatedName);
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        },
+                    }
+                )
+
+                const updatedName = response.data?.name || name.trim();
+                onNameUpdated(updatedName);
+            } else {
+                const response = await axios.patch(
+                    `${import.meta.env['VITE_API_URL']}/api/contacts/${targetUserId}`, {
+                        name: name.trim()
+                    },
+                    { 
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        },
+                    }
+                );
+                const savedContact = response.data?.contact || {
+                    contact: targetUserId,
+                    name: name.trim(),
+                };
+                onNameUpdated(name.trim(), savedContact);
+            }
+
+            
             onClose();
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
@@ -83,7 +106,9 @@ export function UserChatEdit( {onClose, chatId, initialName, onNameUpdated }: Us
                     </span>
                 ) : (
                     <span className="text-sm leading-none text-zinc-400">
-                        You can change the name of your group
+                        {`You can change the name of ${isGroup ? 
+                            'your group' : initialName
+                        }`}
                     </span>
                 )}
             </div>
